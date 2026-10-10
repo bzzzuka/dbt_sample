@@ -6,7 +6,7 @@ echo "  data-init: генерация → S3 → Postgres"
 echo "============================================================"
 
 echo
-echo ">>> [1/2] Генерация данных и загрузка в MinIO (S3)"
+echo ">>> [1/2] Генерация бизнес-данных о поставках и загрузка в MinIO (S3)"
 python /dbt/scripts/generate_and_upload.py
 
 echo

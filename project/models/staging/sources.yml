@@ -4,8 +4,18 @@ sources:
   - name: raw
     schema: public
     tables:
-      - name: raw_customers
-      - name: raw_products
-      - name: raw_orders
-      - name: raw_order_items
-      - name: raw_events
+      - name: raw_suppliers
+      - name: raw_supply_contracts
+      - name: raw_supply_orders
+      - name: raw_supply_items
+      - name: raw_shipments
+      - name: raw_warehouses
+      - name: raw_deliveries
+      - name: raw_invoices
+      - name: raw_payments
+      - name: raw_quality_checks
+      - name: raw_returns
+      - name: raw_inventory_movements
+      - name: raw_transport_routes
+      - name: raw_customs_declarations
+      - name: raw_supplier_ratings

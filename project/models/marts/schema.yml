@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: mart_supplier_performance
+    description: "KPI по каждому поставщику: контракты, заказы, суммы, рейтинг."
+    columns:
+      - name: supplier_id
+        tests: [unique, not_null]
+      - name: supplier_name
+        tests: [not_null]
+
+  - name: mart_supply_by_category
+    description: "Агрегаты поставок по категориям товаров."
+    columns:
+      - name: category
+        tests: [unique, not_null]
+
+  - name: mart_delivery_kpi
+    description: "KPI доставок: сроки, стоимость, статусы по модальностям."
+    columns:
+      - name: transport_mode
+        tests: [not_null]
+
+  - name: mart_warehouse_activity
+    description: "Активность складов: движения, доставки, возвраты."
+    columns:
+      - name: warehouse_id
+        tests: [unique, not_null]
+
+  - name: mart_payment_summary
+    description: "Сводка по платежам и инвойсам по месяцам и валютам."
+
+  - name: mart_transport_analysis
+    description: "Анализ маршрутов и стоимости доставки по видам транспорта."
+    columns:
+      - name: transport_mode
+        tests: [unique, not_null]
