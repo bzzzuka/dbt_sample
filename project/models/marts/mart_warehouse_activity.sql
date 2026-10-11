@@ -1,12 +1,20 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    engine='OLAP',
+    keys=['warehouse_id'],
+    table_type='PRIMARY',
+    distributed_by=['warehouse_id'],
+    buckets=4,
+    properties={"replication_num": "1"}
+) }}
 
 WITH movements AS (
     SELECT
         warehouse_id,
         COUNT(*)                                        AS movements_count,
         SUM(quantity)                                   AS total_quantity,
-        COUNT(*) FILTER (WHERE direction = 'in')        AS inbound_count,
-        COUNT(*) FILTER (WHERE direction = 'out')       AS outbound_count,
+        COUNT(CASE WHEN direction = 'in' THEN 1 END)     AS inbound_count,
+        COUNT(CASE WHEN direction = 'out' THEN 1 END)    AS outbound_count,
         MIN(movement_date)                              AS first_movement,
         MAX(movement_date)                              AS last_movement
     FROM {{ ref('stg_inventory_movements') }}
@@ -16,8 +24,8 @@ deliveries AS (
     SELECT
         warehouse_id,
         COUNT(*)                                        AS deliveries_count,
-        COUNT(*) FILTER (WHERE status = 'delivered')    AS delivered_count,
-        COUNT(*) FILTER (WHERE status = 'returned')     AS returned_count
+        COUNT(CASE WHEN status = 'delivered' THEN 1 END) AS delivered_count,
+        COUNT(CASE WHEN status = 'returned' THEN 1 END)  AS returned_count
     FROM {{ ref('stg_deliveries') }}
     GROUP BY warehouse_id
 )

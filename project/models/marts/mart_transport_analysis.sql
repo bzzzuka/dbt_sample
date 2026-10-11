@@ -1,4 +1,12 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    engine='OLAP',
+    keys=['transport_mode'],
+    table_type='PRIMARY',
+    distributed_by=['transport_mode'],
+    buckets=4,
+    properties={"replication_num": "1"}
+) }}
 
 WITH routes AS (
     SELECT

@@ -1,4 +1,12 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    engine='OLAP',
+    keys=['transport_mode', 'container_type', 'priority'],
+    table_type='PRIMARY',
+    distributed_by=['transport_mode'],
+    buckets=4,
+    properties={"replication_num": "1"}
+) }}
 
 WITH shipments AS (
     SELECT
@@ -11,8 +19,7 @@ WITH shipments AS (
         s.weight_kg,
         s.shipping_cost,
         s.status,
-        -- срок доставки в днях
-        (s.delivery_date - s.ship_date) AS delivery_days,
+        DATEDIFF(s.delivery_date, s.ship_date) AS delivery_days,
         o.priority
     FROM {{ ref('stg_shipments') }} s
     LEFT JOIN {{ ref('stg_supply_orders') }} o USING (supply_order_id)
@@ -28,8 +35,8 @@ SELECT
     AVG(delivery_days)                              AS avg_delivery_days,
     MIN(delivery_days)                              AS min_delivery_days,
     MAX(delivery_days)                              AS max_delivery_days,
-    COUNT(*) FILTER (WHERE status = 'delivered')    AS delivered_count,
-    COUNT(*) FILTER (WHERE status = 'cancelled')    AS cancelled_count,
-    COUNT(*) FILTER (WHERE status = 'returned')     AS returned_count
+    COUNT(CASE WHEN status = 'delivered' THEN 1 END) AS delivered_count,
+    COUNT(CASE WHEN status = 'cancelled' THEN 1 END) AS cancelled_count,
+    COUNT(CASE WHEN status = 'returned' THEN 1 END)  AS returned_count
 FROM shipments
 GROUP BY transport_mode, container_type, priority

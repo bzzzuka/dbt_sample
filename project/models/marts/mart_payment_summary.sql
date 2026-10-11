@@ -1,22 +1,30 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    engine='OLAP',
+    keys=['month', 'currency'],
+    table_type='PRIMARY',
+    distributed_by=['month'],
+    buckets=4,
+    properties={"replication_num": "1"}
+) }}
 
 WITH invoices AS (
     SELECT
-        DATE_TRUNC('month', invoice_date)  AS invoice_month,
+        DATE_FORMAT(invoice_date, '%Y-%m-01')  AS invoice_month,
         currency,
         payment_status,
-        COUNT(*)                           AS invoices_count,
-        SUM(total_price)                   AS invoices_total
+        COUNT(*)                                AS invoices_count,
+        SUM(total_price)                        AS invoices_total
     FROM {{ ref('stg_invoices') }}
     GROUP BY 1, 2, 3
 ),
 payments AS (
     SELECT
-        DATE_TRUNC('month', payment_date)  AS payment_month,
+        DATE_FORMAT(payment_date, '%Y-%m-01')  AS payment_month,
         currency,
         payment_status,
-        COUNT(*)                           AS payments_count,
-        SUM(total_price)                   AS payments_total
+        COUNT(*)                                AS payments_count,
+        SUM(total_price)                        AS payments_total
     FROM {{ ref('stg_payments') }}
     GROUP BY 1, 2, 3
 )

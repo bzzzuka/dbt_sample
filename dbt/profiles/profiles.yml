@@ -2,12 +2,11 @@ default:
   target: dev
   outputs:
     dev:
-      type: postgres
-      host: "{{ env_var('POSTGRES_HOST', 'postgres') }}"
-      user: "{{ env_var('POSTGRES_USER', 'dbt_user') }}"
-      password: "{{ env_var('POSTGRES_PASSWORD', 'dbt_password') }}"
-      port: "{{ env_var('POSTGRES_PORT', '5432') | int }}"
-      dbname: "{{ env_var('POSTGRES_DB', 'dbt_db') }}"
-      schema: public
-      threads: 4
-      keepalives_idle: 0
+      type: starrocks
+      host: "{{ env_var('STARROCKS_HOST', 'starrocks-fe') }}"
+      port: "{{ env_var('STARROCKS_PORT', '9030') | int }}"
+      schema: "{{ env_var('STARROCKS_SCHEMA', 'analytics') }}"
+      username: "{{ env_var('STARROCKS_USER', 'root') }}"
+      password: "{{ env_var('STARROCKS_PASSWORD', '') }}"
+      catalog: "{{ env_var('STARROCKS_CATALOG', 'default_catalog') }}"
+      version: "3.4.0"

@@ -1,4 +1,12 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    engine='OLAP',
+    keys=['category'],
+    table_type='PRIMARY',
+    distributed_by=['category'],
+    buckets=4,
+    properties={"replication_num": "1"}
+) }}
 
 SELECT
     i.category,

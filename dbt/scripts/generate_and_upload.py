@@ -5,6 +5,9 @@
 фиксированный набор «ядровых» колонок, нужных mart-слою, остальные
 добираются из пула случайно.
 
+Перед загрузкой удаляет все старые объекты под префиксом
+stg/{table}/ — это гарантирует отсутствие дубликатов в S3.
+
 Также генерирует dbt-модели (stg_*.sql) и sources.yml.
 """
 
@@ -38,6 +41,9 @@ S3_SECRET_KEY = os.getenv("MINIO_ROOT_PASSWORD", "minioadmin")
 S3_BUCKET     = os.getenv("MINIO_BUCKET", "dbt-bucket")
 S3_REGION     = os.getenv("MINIO_REGION", "us-east-1")
 LAYER         = os.getenv("LAYER", "stg")
+
+# Очищать ли префикс stg/{table}/ перед загрузкой (дедупликация)
+CLEAN_BEFORE_UPLOAD = os.getenv("CLEAN_BEFORE_UPLOAD", "true").lower() in ("1", "true", "yes")
 
 PARTITION_DATE = os.getenv("PARTITION_DATE", datetime.utcnow().strftime("%Y-%m-%d"))
 
@@ -81,6 +87,7 @@ PACKAGING_TYPES = ["box","carton","pallet","crate","bag","drum","tank","bundle"]
 LOADING_TYPES = ["manual","forklift","crane","conveyor","ro-ro","pump"]
 CUSTOMS_REGIMES = ["export","import","transit","temporary","re-export","bonded"]
 DELIVERY_TERMS = ["DAP","DDP","FOB","CIF","EXW","FCA"]
+DIRECTIONS = ["in","out","transfer","adjustment","writeoff"]
 
 ENUM_VALUES = {
     "incoterms": INCOTERMS, "payment_terms": PAYMENT_TERMS,
@@ -90,7 +97,7 @@ ENUM_VALUES = {
     "priority": PRIORITIES, "quality_grade": QUALITY_GRADES,
     "hazard_class": HAZARD_CLASSES, "packaging_type": PACKAGING_TYPES,
     "loading_type": LOADING_TYPES, "customs_regime": CUSTOMS_REGIMES,
-    "delivery_terms": DELIVERY_TERMS,
+    "delivery_terms": DELIVERY_TERMS, "direction": DIRECTIONS,
 }
 
 KIND_TO_PG = {
@@ -101,13 +108,12 @@ KIND_TO_PG = {
     "country": "TEXT", "city": "TEXT", "region": "TEXT",
     "bool": "BOOLEAN", "coord": "NUMERIC(10,6)",
     "text": "TEXT", "email": "TEXT", "phone": "TEXT", "url": "TEXT",
-    "direction": "TEXT",
 }
 for _e in ENUM_VALUES:
     KIND_TO_PG[_e] = "TEXT"
 
 
-# ---------- Пул «мусорных» колонок (добираем случайно) ----------
+# ---------- Пул «мусорных» колонок ----------
 COLUMN_POOL = [
     ("contract_number", "code"), ("invoice_number", "code"),
     ("waybill_number", "code"), ("ttn_number", "code"),
@@ -185,6 +191,7 @@ COLUMN_POOL = [
     ("quality_grade", "quality_grade"), ("hazard_class", "hazard_class"),
     ("packaging_type", "packaging_type"), ("loading_type", "loading_type"),
     ("customs_regime", "customs_regime"), ("delivery_terms", "delivery_terms"),
+    ("direction", "direction"),
 
     ("is_urgent", "bool"), ("is_hazardous", "bool"), ("is_fragile", "bool"),
     ("is_refrigerated", "bool"), ("is_oversized", "bool"),
@@ -202,8 +209,7 @@ COLUMN_POOL = [
 ]
 
 
-# ---------- Таблицы: обязательные колонки + FK ----------
-# core: колонки, гарантированно попадающие в таблицу (нужны mart-моделям)
+# ---------- Таблицы ----------
 TABLES = [
     ("suppliers", [
         ("supplier_name", "name"), ("country", "country"), ("city", "city"),
@@ -287,8 +293,6 @@ TABLES = [
     ], [("supplier_id", "suppliers")]),
 ]
 
-DIRECTIONS = ["in", "out", "transfer", "adjustment", "writeoff"]
-
 
 # ---------- Утилиты ----------
 def singular(t: str) -> str:
@@ -360,9 +364,27 @@ def ensure_bucket(s3, bucket):
         s3.create_bucket(Bucket=bucket); print(f"  + Создан bucket '{bucket}'")
 
 
+def clean_prefix(s3, prefix: str) -> int:
+    """Удаляет все объекты под префиксом. Возвращает количество удалённых."""
+    deleted = 0
+    paginator = s3.get_paginator("list_objects_v2")
+    for page in paginator.paginate(Bucket=S3_BUCKET, Prefix=prefix):
+        contents = page.get("Contents", [])
+        if not contents:
+            continue
+        # Удаляем пачками по 1000 (лимит S3 delete_objects)
+        for i in range(0, len(contents), 1000):
+            batch = contents[i:i + 1000]
+            s3.delete_objects(
+                Bucket=S3_BUCKET,
+                Delete={"Objects": [{"Key": o["Key"]} for o in batch]},
+            )
+            deleted += len(batch)
+    return deleted
+
+
 # ---------- Загрузка таблицы ----------
 def pick_columns(table_name, core, fks, rng):
-    """core + случайные из пула, без дубликатов."""
     reserved = {f"{singular(table_name)}_id"} | {f[0] for f in fks} | {c[0] for c in core}
     available = [c for c in COLUMN_POOL if c[0] not in reserved]
     n_extra = max(0, COLUMNS_PER_TABLE - len(core))
@@ -374,6 +396,13 @@ def upload_table(s3, table_name, picked, fks, rows_count):
     pk = f"{singular(table_name)}_id"
     all_columns = [pk] + [c for c, _ in picked] + [fk for fk, _ in fks]
     all_columns = list(dict.fromkeys(all_columns))
+
+    # ---- Дедупликация: чистим префикс stg/{table}/ ----
+    if CLEAN_BEFORE_UPLOAD:
+        prefix = f"{LAYER}/{table_name}/"
+        n = clean_prefix(s3, prefix)
+        if n:
+            print(f"    🧹 очищено {n} старых объектов под {prefix}")
 
     rng = random.Random(f"{RANDOM_SEED}-{table_name}")
     total_bytes = 0
@@ -418,7 +447,7 @@ def write_dbt_models(tables_columns):
                f"FROM {{{{ source('raw', 'raw_{table_name}') }}}}\n")
         (models_dir / f"stg_{table_name}.sql").write_text(sql, encoding="utf-8")
 
-    sources = "version: 2\n\nsources:\n  - name: raw\n    schema: public\n    tables:\n"
+    sources = "version: 2\n\nsources:\n  - name: raw\n    schema: analytics\n    tables:\n"
     for table_name in tables_columns:
         sources += f"      - name: raw_{table_name}\n"
     (models_dir / "sources.yml").write_text(sources, encoding="utf-8")
@@ -431,7 +460,8 @@ def write_dbt_models(tables_columns):
 def main():
     print(f"Генерация {len(TABLES)} stg-таблиц по ~{COLUMNS_PER_TABLE} колонок")
     print(f"  ROWS={ROWS}, CHUNK_SIZE={CHUNK_SIZE}, seed={RANDOM_SEED}")
-    print(f"  S3: {S3_ENDPOINT}, bucket={S3_BUCKET}, layer={LAYER}, partition={PARTITION_DATE}\n")
+    print(f"  S3: {S3_ENDPOINT}, bucket={S3_BUCKET}, layer={LAYER}, partition={PARTITION_DATE}")
+    print(f"  Очистка перед загрузкой: {'ВКЛ' if CLEAN_BEFORE_UPLOAD else 'ВЫКЛ'}\n")
 
     s3 = make_s3_client()
     ensure_bucket(s3, S3_BUCKET)
@@ -451,10 +481,10 @@ def main():
         tables_columns[table_name] = cols
 
         col_types = [(pk, "INTEGER")]
-        for fk_name, _ in fks:
-            col_types.append((fk_name, "INTEGER"))
         for col_name, kind in picked:
             col_types.append((col_name, KIND_TO_PG.get(kind, "TEXT")))
+        for fk_name, _ in fks:
+            col_types.append((fk_name, "INTEGER"))
         tables_types[table_name] = col_types
         print()
 
@@ -466,7 +496,7 @@ def main():
     write_dbt_models(tables_columns)
 
     print(f"\n✅ Готово! {len(TABLES)} таблиц загружено в S3, "
-          f"{len(tables_columns)} dbt-моделей сгенерировано.")
+          f"{len(dbt_tables := tables_columns)} dbt-моделей сгенерировано.")
 
 
 if __name__ == "__main__":

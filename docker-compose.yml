@@ -1,22 +1,18 @@
 services:
 
-  postgres:
-    image: docker.m.daocloud.io/library/postgres:15-alpine
-    container_name: dbt_postgres
+  starrocks:
+    image: starrocks/allin1-ubuntu:3.4-latest
+    container_name: starrocks
+    hostname: starrocks
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      - TZ=UTC
     ports:
-      - "5432:5432"
+      - "8030:8030"
+      - "9030:9030"
+      - "8040:8040"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 3s
-      timeout: 3s
-      retries: 20
+      - starrocks_data:/data
     networks:
       - dbt_network
 
@@ -41,23 +37,23 @@ services:
     networks:
       - dbt_network
 
-  # Одноразовый контейнер: генерация данных → S3 → Postgres
   data-init:
     build:
       context: ./dbt
       dockerfile: Dockerfile
     container_name: dbt_data_init
     depends_on:
-      postgres:
-        condition: service_healthy
+      starrocks:
+        condition: service_started
       minio:
         condition: service_healthy
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_DB: ${POSTGRES_DB}
+      STARROCKS_HOST: ${STARROCKS_HOST}
+      STARROCKS_PORT: ${STARROCKS_PORT}
+      STARROCKS_USER: ${STARROCKS_USER}
+      STARROCKS_PASSWORD: ${STARROCKS_PASSWORD}
+      STARROCKS_SCHEMA: ${STARROCKS_SCHEMA}
+      STARROCKS_CATALOG: ${STARROCKS_CATALOG}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT}
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
@@ -66,12 +62,14 @@ services:
       LAYER: ${LAYER}
       ROWS: ${ROWS}
       CHUNK_SIZE: ${CHUNK_SIZE}
+      COLUMNS_PER_TABLE: ${COLUMNS_PER_TABLE}
       WRITE_LOCAL: ${WRITE_LOCAL}
+    volumes:
+      - ./project:/dbt/project
     entrypoint: ["/dbt/scripts/init.sh"]
     networks:
       - dbt_network
 
-  # dbt: запускает модели один раз и завершается
   dbt:
     build:
       context: ./dbt
@@ -81,15 +79,12 @@ services:
       data-init:
         condition: service_completed_successfully
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_DB: ${POSTGRES_DB}
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      MINIO_BUCKET: ${MINIO_BUCKET}
+      STARROCKS_HOST: ${STARROCKS_HOST}
+      STARROCKS_PORT: ${STARROCKS_PORT}
+      STARROCKS_USER: ${STARROCKS_USER}
+      STARROCKS_PASSWORD: ${STARROCKS_PASSWORD}
+      STARROCKS_SCHEMA: ${STARROCKS_SCHEMA}
+      STARROCKS_CATALOG: ${STARROCKS_CATALOG}
     volumes:
       - ./project:/dbt/project
     working_dir: /dbt/project
@@ -98,7 +93,7 @@ services:
       - dbt_network
 
 volumes:
-  postgres_data:
+  starrocks_data:
   minio_data:
 
 networks:

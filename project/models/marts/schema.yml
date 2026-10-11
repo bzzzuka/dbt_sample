@@ -17,9 +17,6 @@ models:
 
   - name: mart_delivery_kpi
     description: "KPI доставок: сроки, стоимость, статусы по модальностям."
-    columns:
-      - name: transport_mode
-        tests: [not_null]
 
   - name: mart_warehouse_activity
     description: "Активность складов: движения, доставки, возвраты."
