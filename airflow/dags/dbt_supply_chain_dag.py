@@ -1,8 +1,10 @@
-from datetime import datetime, timedelta
+from datetime import datetime
+
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 
 ENV = {
+    "PATH": "/home/airflow/.local/bin:/usr/local/bin:/usr/bin:/bin",
     "STARROCKS_HOST": "starrocks",
     "STARROCKS_PORT": "9030",
     "STARROCKS_USER": "root",
@@ -15,13 +17,18 @@ ENV = {
     "MINIO_BUCKET": "dbt-bucket",
     "MINIO_REGION": "us-east-1",
     "LAYER": "stg",
+    "ROWS": "5000",
+    "CHUNK_SIZE": "2500",
+    "COLUMNS_PER_TABLE": "120",
+    "WRITE_LOCAL": "false",
+    "SCHEMA_JSON_PATH": "/tmp/_schema.json",
+    "DBT_PROJECT_DIR": "/opt/airflow/dbt_project",
     "DBT_PROFILES_DIR": "/opt/airflow/dbt_profiles",
 }
 
 default_args = {
     "owner": "data-team",
-    "retries": 1,
-    "retry_delay": timedelta(minutes=2),
+    "retries": 0,
 }
 
 with DAG(
@@ -49,13 +56,25 @@ with DAG(
 
     run = BashOperator(
         task_id="dbt_run",
-        bash_command="cd /opt/airflow/dbt_project && dbt run --profiles-dir /opt/airflow/dbt_profiles",
+        bash_command=(
+            "mkdir -p /tmp/dbt_logs /tmp/dbt_target && "
+            "cd /opt/airflow/dbt_project && "
+            "dbt --log-path /tmp/dbt_logs run "
+            "--profiles-dir /opt/airflow/dbt_profiles "
+            "--target-path /tmp/dbt_target"
+        ),
         env=ENV,
     )
 
     test = BashOperator(
         task_id="dbt_test",
-        bash_command="cd /opt/airflow/dbt_project && dbt test --profiles-dir /opt/airflow/dbt_profiles",
+        bash_command=(
+            "mkdir -p /tmp/dbt_logs /tmp/dbt_target && "
+            "cd /opt/airflow/dbt_project && "
+            "dbt --log-path /tmp/dbt_logs test "
+            "--profiles-dir /opt/airflow/dbt_profiles "
+            "--target-path /tmp/dbt_target"
+        ),
         env=ENV,
     )
 

@@ -1,0 +1,78 @@
+[2026-10-11T19:29:19.088+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-10-11T19:29:19.126+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: dbt_supply_chain_pipeline.load_to_starrocks manual__2026-10-11T19:28:53+00:00 [queued]>
+[2026-10-11T19:29:19.137+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: dbt_supply_chain_pipeline.load_to_starrocks manual__2026-10-11T19:28:53+00:00 [queued]>
+[2026-10-11T19:29:19.138+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2026-10-11T19:29:19.154+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): load_to_starrocks> on 2026-10-11 19:28:53+00:00
+[2026-10-11T19:29:19.164+0000] {standard_task_runner.py:72} INFO - Started process 433 to run task
+[2026-10-11T19:29:19.173+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'dbt_supply_chain_pipeline', 'load_to_starrocks', 'manual__2026-10-11T19:28:53+00:00', '--job-id', '60', '--raw', '--subdir', 'DAGS_FOLDER/dbt_supply_chain_dag.py', '--cfg-path', '/tmp/tmpcjg1w2sk']
+[2026-10-11T19:29:19.176+0000] {standard_task_runner.py:105} INFO - Job 60: Subtask load_to_starrocks
+[2026-10-11T19:29:19.282+0000] {task_command.py:467} INFO - Running <TaskInstance: dbt_supply_chain_pipeline.load_to_starrocks manual__2026-10-11T19:28:53+00:00 [running]> on host 277be81ab484
+[2026-10-11T19:29:19.403+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-team' AIRFLOW_CTX_DAG_ID='dbt_supply_chain_pipeline' AIRFLOW_CTX_TASK_ID='load_to_starrocks' AIRFLOW_CTX_EXECUTION_DATE='2026-10-11T19:28:53+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-10-11T19:28:53+00:00'
+[2026-10-11T19:29:19.404+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-10-11T19:29:19.418+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-10-11T19:29:19.420+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/***/dbt/scripts/load_s3_to_starrocks.py']
+[2026-10-11T19:29:19.436+0000] {subprocess.py:99} INFO - Output:
+[2026-10-11T19:29:59.067+0000] {subprocess.py:106} INFO - StarRocks: root@starrocks:9030/analytics
+[2026-10-11T19:29:59.069+0000] {subprocess.py:106} INFO - S3: http://minio:9000, bucket=dbt-bucket, layer=stg
+[2026-10-11T19:29:59.071+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:29:59.072+0000] {subprocess.py:106} INFO -   ✓ Схема загружена: 15 таблиц
+[2026-10-11T19:29:59.073+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:29:59.074+0000] {subprocess.py:106} INFO - Ожидание готовности StarRocks (starrocks:9030), макс 240s...
+[2026-10-11T19:29:59.074+0000] {subprocess.py:106} INFO -   ✓ StarRocks готов (1 BE узлов, попытка 1)
+[2026-10-11T19:29:59.075+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:29:59.076+0000] {subprocess.py:106} INFO - Создание схемы и таблиц...
+[2026-10-11T19:29:59.077+0000] {subprocess.py:106} INFO -   + Таблица raw_suppliers создана (121 колонок)
+[2026-10-11T19:29:59.077+0000] {subprocess.py:106} INFO -   + Таблица raw_supply_contracts создана (122 колонок)
+[2026-10-11T19:29:59.078+0000] {subprocess.py:106} INFO -   + Таблица raw_supply_orders создана (123 колонок)
+[2026-10-11T19:29:59.079+0000] {subprocess.py:106} INFO -   + Таблица raw_supply_items создана (122 колонок)
+[2026-10-11T19:29:59.080+0000] {subprocess.py:106} INFO -   + Таблица raw_shipments создана (122 колонок)
+[2026-10-11T19:29:59.081+0000] {subprocess.py:106} INFO -   + Таблица raw_warehouses создана (121 колонок)
+[2026-10-11T19:29:59.081+0000] {subprocess.py:106} INFO -   + Таблица raw_deliveries создана (123 колонок)
+[2026-10-11T19:29:59.082+0000] {subprocess.py:106} INFO -   + Таблица raw_invoices создана (122 колонок)
+[2026-10-11T19:29:59.083+0000] {subprocess.py:106} INFO -   + Таблица raw_payments создана (122 колонок)
+[2026-10-11T19:29:59.084+0000] {subprocess.py:106} INFO -   + Таблица raw_quality_checks создана (122 колонок)
+[2026-10-11T19:29:59.085+0000] {subprocess.py:106} INFO -   + Таблица raw_returns создана (122 колонок)
+[2026-10-11T19:29:59.086+0000] {subprocess.py:106} INFO -   + Таблица raw_inventory_movements создана (122 колонок)
+[2026-10-11T19:29:59.086+0000] {subprocess.py:106} INFO -   + Таблица raw_transport_routes создана (121 колонок)
+[2026-10-11T19:29:59.087+0000] {subprocess.py:106} INFO -   + Таблица raw_customs_declarations создана (122 колонок)
+[2026-10-11T19:29:59.088+0000] {subprocess.py:106} INFO -   + Таблица raw_supplier_ratings создана (122 колонок)
+[2026-10-11T19:29:59.089+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:29:59.089+0000] {subprocess.py:106} INFO - Загрузка данных из S3 в StarRocks...
+[2026-10-11T19:29:59.090+0000] {subprocess.py:106} INFO -   ⏳ raw_customs_declarations: 2 файл(ов)...
+[2026-10-11T19:29:59.091+0000] {subprocess.py:106} INFO -   ✓ raw_customs_declarations: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.091+0000] {subprocess.py:106} INFO -   ⏳ raw_deliveries: 2 файл(ов)...
+[2026-10-11T19:29:59.092+0000] {subprocess.py:106} INFO -   ✓ raw_deliveries: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.093+0000] {subprocess.py:106} INFO -   ⏳ raw_inventory_movements: 2 файл(ов)...
+[2026-10-11T19:29:59.094+0000] {subprocess.py:106} INFO -   ✓ raw_inventory_movements: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.095+0000] {subprocess.py:106} INFO -   ⏳ raw_invoices: 2 файл(ов)...
+[2026-10-11T19:29:59.096+0000] {subprocess.py:106} INFO -   ✓ raw_invoices: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.096+0000] {subprocess.py:106} INFO -   ⏳ raw_payments: 2 файл(ов)...
+[2026-10-11T19:29:59.097+0000] {subprocess.py:106} INFO -   ✓ raw_payments: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.098+0000] {subprocess.py:106} INFO -   ⏳ raw_quality_checks: 2 файл(ов)...
+[2026-10-11T19:29:59.099+0000] {subprocess.py:106} INFO -   ✓ raw_quality_checks: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.099+0000] {subprocess.py:106} INFO -   ⏳ raw_returns: 2 файл(ов)...
+[2026-10-11T19:29:59.100+0000] {subprocess.py:106} INFO -   ✓ raw_returns: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.101+0000] {subprocess.py:106} INFO -   ⏳ raw_shipments: 2 файл(ов)...
+[2026-10-11T19:29:59.102+0000] {subprocess.py:106} INFO -   ✓ raw_shipments: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.102+0000] {subprocess.py:106} INFO -   ⏳ raw_supplier_ratings: 2 файл(ов)...
+[2026-10-11T19:29:59.103+0000] {subprocess.py:106} INFO -   ✓ raw_supplier_ratings: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.104+0000] {subprocess.py:106} INFO -   ⏳ raw_suppliers: 2 файл(ов)...
+[2026-10-11T19:29:59.105+0000] {subprocess.py:106} INFO -   ✓ raw_suppliers: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.105+0000] {subprocess.py:106} INFO -   ⏳ raw_supply_contracts: 2 файл(ов)...
+[2026-10-11T19:29:59.106+0000] {subprocess.py:106} INFO -   ✓ raw_supply_contracts: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.107+0000] {subprocess.py:106} INFO -   ⏳ raw_supply_items: 2 файл(ов)...
+[2026-10-11T19:29:59.108+0000] {subprocess.py:106} INFO -   ✓ raw_supply_items: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.109+0000] {subprocess.py:106} INFO -   ⏳ raw_supply_orders: 2 файл(ов)...
+[2026-10-11T19:29:59.110+0000] {subprocess.py:106} INFO -   ✓ raw_supply_orders: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.111+0000] {subprocess.py:106} INFO -   ⏳ raw_transport_routes: 2 файл(ов)...
+[2026-10-11T19:29:59.112+0000] {subprocess.py:106} INFO -   ✓ raw_transport_routes: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.112+0000] {subprocess.py:106} INFO -   ⏳ raw_warehouses: 2 файл(ов)...
+[2026-10-11T19:29:59.113+0000] {subprocess.py:106} INFO -   ✓ raw_warehouses: 5000 строк загружено (из 2 файлов)
+[2026-10-11T19:29:59.114+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:29:59.115+0000] {subprocess.py:106} INFO - ✅ Загрузка в StarRocks завершена.
+[2026-10-11T19:29:59.227+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2026-10-11T19:29:59.280+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-10-11T19:29:59.281+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=dbt_supply_chain_pipeline, task_id=load_to_starrocks, run_id=manual__2026-10-11T19:28:53+00:00, execution_date=20261011T192853, start_date=20261011T192919, end_date=20261011T192959
+[2026-10-11T19:29:59.366+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-10-11T19:29:59.406+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-10-11T19:29:59.409+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

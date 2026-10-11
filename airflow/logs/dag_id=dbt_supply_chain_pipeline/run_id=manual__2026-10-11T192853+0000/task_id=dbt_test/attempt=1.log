@@ -1,0 +1,50 @@
+[2026-10-11T20:02:42.547+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-10-11T20:02:42.591+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: dbt_supply_chain_pipeline.dbt_test manual__2026-10-11T19:28:53+00:00 [queued]>
+[2026-10-11T20:02:42.603+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: dbt_supply_chain_pipeline.dbt_test manual__2026-10-11T19:28:53+00:00 [queued]>
+[2026-10-11T20:02:42.604+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2026-10-11T20:02:42.622+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): dbt_test> on 2026-10-11 19:28:53+00:00
+[2026-10-11T20:02:42.637+0000] {standard_task_runner.py:72} INFO - Started process 1208 to run task
+[2026-10-11T20:02:42.642+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'dbt_supply_chain_pipeline', 'dbt_test', 'manual__2026-10-11T19:28:53+00:00', '--job-id', '67', '--raw', '--subdir', 'DAGS_FOLDER/dbt_supply_chain_dag.py', '--cfg-path', '/tmp/tmpzmopkfs5']
+[2026-10-11T20:02:42.652+0000] {standard_task_runner.py:105} INFO - Job 67: Subtask dbt_test
+[2026-10-11T20:02:42.760+0000] {task_command.py:467} INFO - Running <TaskInstance: dbt_supply_chain_pipeline.dbt_test manual__2026-10-11T19:28:53+00:00 [running]> on host 277be81ab484
+[2026-10-11T20:02:42.895+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-team' AIRFLOW_CTX_DAG_ID='dbt_supply_chain_pipeline' AIRFLOW_CTX_TASK_ID='dbt_test' AIRFLOW_CTX_EXECUTION_DATE='2026-10-11T19:28:53+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-10-11T19:28:53+00:00'
+[2026-10-11T20:02:42.898+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-10-11T20:02:42.927+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-10-11T20:02:42.930+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'mkdir -p /tmp/dbt_logs /tmp/dbt_target && cd /opt/***/dbt_project && dbt --log-path /tmp/dbt_logs test --profiles-dir /opt/***/dbt_profiles --target-path /tmp/dbt_target']
+[2026-10-11T20:02:42.951+0000] {subprocess.py:99} INFO - Output:
+[2026-10-11T20:02:47.991+0000] {subprocess.py:106} INFO - [0m20:02:47  Running with dbt=1.6.2
+[2026-10-11T20:02:48.962+0000] {subprocess.py:106} INFO - [0m20:02:48  Registered adapter: starrocks=1.6.2
+[2026-10-11T20:02:49.518+0000] {subprocess.py:106} INFO - [0m20:02:49  Found 21 models, 9 tests, 15 sources, 0 exposures, 0 metrics, 336 macros, 0 groups, 0 semantic models
+[2026-10-11T20:02:49.525+0000] {subprocess.py:106} INFO - [0m20:02:49
+[2026-10-11T20:02:50.339+0000] {subprocess.py:106} INFO - [0m20:02:50  Concurrency: 1 threads (target='dev')
+[2026-10-11T20:02:50.355+0000] {subprocess.py:106} INFO - [0m20:02:50
+[2026-10-11T20:02:50.375+0000] {subprocess.py:106} INFO - [0m20:02:50  1 of 9 START test not_null_mart_supplier_performance_supplier_id ............... [RUN]
+[2026-10-11T20:02:50.903+0000] {subprocess.py:106} INFO - [0m20:02:50  1 of 9 PASS not_null_mart_supplier_performance_supplier_id ..................... [[32mPASS[0m in 0.52s]
+[2026-10-11T20:02:50.922+0000] {subprocess.py:106} INFO - [0m20:02:50  2 of 9 START test not_null_mart_supplier_performance_supplier_name ............. [RUN]
+[2026-10-11T20:02:51.501+0000] {subprocess.py:106} INFO - [0m20:02:51  2 of 9 PASS not_null_mart_supplier_performance_supplier_name ................... [[32mPASS[0m in 0.59s]
+[2026-10-11T20:02:51.512+0000] {subprocess.py:106} INFO - [0m20:02:51  3 of 9 START test not_null_mart_supply_by_category_category .................... [RUN]
+[2026-10-11T20:02:51.904+0000] {subprocess.py:106} INFO - [0m20:02:51  3 of 9 PASS not_null_mart_supply_by_category_category .......................... [[32mPASS[0m in 0.39s]
+[2026-10-11T20:02:51.913+0000] {subprocess.py:106} INFO - [0m20:02:51  4 of 9 START test not_null_mart_transport_analysis_transport_mode .............. [RUN]
+[2026-10-11T20:02:52.365+0000] {subprocess.py:106} INFO - [0m20:02:52  4 of 9 PASS not_null_mart_transport_analysis_transport_mode .................... [[32mPASS[0m in 0.46s]
+[2026-10-11T20:02:52.377+0000] {subprocess.py:106} INFO - [0m20:02:52  5 of 9 START test not_null_mart_warehouse_activity_warehouse_id ................ [RUN]
+[2026-10-11T20:02:52.751+0000] {subprocess.py:106} INFO - [0m20:02:52  5 of 9 PASS not_null_mart_warehouse_activity_warehouse_id ...................... [[32mPASS[0m in 0.38s]
+[2026-10-11T20:02:52.771+0000] {subprocess.py:106} INFO - [0m20:02:52  6 of 9 START test unique_mart_supplier_performance_supplier_id ................. [RUN]
+[2026-10-11T20:02:53.462+0000] {subprocess.py:106} INFO - [0m20:02:53  6 of 9 PASS unique_mart_supplier_performance_supplier_id ....................... [[32mPASS[0m in 0.70s]
+[2026-10-11T20:02:53.474+0000] {subprocess.py:106} INFO - [0m20:02:53  7 of 9 START test unique_mart_supply_by_category_category ...................... [RUN]
+[2026-10-11T20:02:53.889+0000] {subprocess.py:106} INFO - [0m20:02:53  7 of 9 PASS unique_mart_supply_by_category_category ............................ [[32mPASS[0m in 0.42s]
+[2026-10-11T20:02:53.895+0000] {subprocess.py:106} INFO - [0m20:02:53  8 of 9 START test unique_mart_transport_analysis_transport_mode ................ [RUN]
+[2026-10-11T20:02:54.255+0000] {subprocess.py:106} INFO - [0m20:02:54  8 of 9 PASS unique_mart_transport_analysis_transport_mode ...................... [[32mPASS[0m in 0.36s]
+[2026-10-11T20:02:54.271+0000] {subprocess.py:106} INFO - [0m20:02:54  9 of 9 START test unique_mart_warehouse_activity_warehouse_id .................. [RUN]
+[2026-10-11T20:02:54.617+0000] {subprocess.py:106} INFO - [0m20:02:54  9 of 9 PASS unique_mart_warehouse_activity_warehouse_id ........................ [[32mPASS[0m in 0.35s]
+[2026-10-11T20:02:54.880+0000] {subprocess.py:106} INFO - [0m20:02:54
+[2026-10-11T20:02:54.890+0000] {subprocess.py:106} INFO - [0m20:02:54  Finished running 9 tests in 0 hours 0 minutes and 5.35 seconds (5.35s).
+[2026-10-11T20:02:54.927+0000] {subprocess.py:106} INFO - [0m20:02:54
+[2026-10-11T20:02:54.931+0000] {subprocess.py:106} INFO - [0m20:02:54  [32mCompleted successfully[0m
+[2026-10-11T20:02:54.933+0000] {subprocess.py:106} INFO - [0m20:02:54
+[2026-10-11T20:02:54.934+0000] {subprocess.py:106} INFO - [0m20:02:54  Done. PASS=9 WARN=0 ERROR=0 SKIP=0 TOTAL=9
+[2026-10-11T20:02:57.486+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2026-10-11T20:02:57.618+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-10-11T20:02:57.622+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=dbt_supply_chain_pipeline, task_id=dbt_test, run_id=manual__2026-10-11T19:28:53+00:00, execution_date=20261011T192853, start_date=20261011T200242, end_date=20261011T200257
+[2026-10-11T20:02:57.739+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-10-11T20:02:57.775+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-10-11T20:02:57.786+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

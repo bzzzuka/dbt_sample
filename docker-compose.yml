@@ -13,8 +13,7 @@ services:
       - "8040:8040"
     volumes:
       - starrocks_data:/data
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   minio:
     image: ghcr.io/coollabsio/minio:latest
@@ -34,19 +33,14 @@ services:
       interval: 3s
       timeout: 3s
       retries: 20
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   data-init:
-    build:
-      context: ./dbt
-      dockerfile: Dockerfile
+    build: { context: ./dbt, dockerfile: Dockerfile }
     container_name: dbt_data_init
     depends_on:
-      starrocks:
-        condition: service_started
-      minio:
-        condition: service_healthy
+      starrocks: { condition: service_started }
+      minio: { condition: service_healthy }
     environment:
       STARROCKS_HOST: ${STARROCKS_HOST}
       STARROCKS_PORT: ${STARROCKS_PORT}
@@ -67,17 +61,13 @@ services:
     volumes:
       - ./project:/dbt/project
     entrypoint: ["/dbt/scripts/init.sh"]
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   dbt:
-    build:
-      context: ./dbt
-      dockerfile: Dockerfile
+    build: { context: ./dbt, dockerfile: Dockerfile }
     container_name: dbt_runner
     depends_on:
-      data-init:
-        condition: service_completed_successfully
+      data-init: { condition: service_completed_successfully }
     environment:
       STARROCKS_HOST: ${STARROCKS_HOST}
       STARROCKS_PORT: ${STARROCKS_PORT}
@@ -89,20 +79,15 @@ services:
       - ./project:/dbt/project
     working_dir: /dbt/project
     entrypoint: ["/dbt/scripts/run_dbt.sh"]
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   superset:
-    build:
-      context: ./superset
-      dockerfile: Dockerfile
+    build: { context: ./superset, dockerfile: Dockerfile }
     container_name: superset_app
     restart: unless-stopped
     depends_on:
-      superset-init:
-        condition: service_completed_successfully
-      starrocks:
-        condition: service_started
+      superset-init: { condition: service_completed_successfully }
+      starrocks: { condition: service_started }
     environment:
       - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
     ports:
@@ -110,28 +95,17 @@ services:
     volumes:
       - superset_home:/app/superset_home
     command: >
-      gunicorn
-      --bind 0.0.0.0:8088
-      --access-logfile -
-      --error-logfile -
-      --workers 1
-      --worker-class gthread
-      --threads 20
-      --timeout 120
-      --limit-request-line 0
-      --limit-request-field_size 0
+      gunicorn --bind 0.0.0.0:8088 --access-logfile - --error-logfile -
+      --workers 1 --worker-class gthread --threads 20 --timeout 120
+      --limit-request-line 0 --limit-request-field_size 0
       "superset.app:create_app()"
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   superset-init:
-    build:
-      context: ./superset
-      dockerfile: Dockerfile
+    build: { context: ./superset, dockerfile: Dockerfile }
     container_name: superset_init
     depends_on:
-      starrocks:
-        condition: service_started
+      starrocks: { condition: service_started }
     environment:
       - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
       - STARROCKS_HOST=${STARROCKS_HOST}
@@ -144,33 +118,23 @@ services:
       - superset_home:/app/superset_home
       - ./superset/init:/app/init
     command: ["/bin/bash", "/app/init/init-db.sh"]
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   superset-worker:
-    build:
-      context: ./superset
-      dockerfile: Dockerfile
+    build: { context: ./superset, dockerfile: Dockerfile }
     container_name: superset_worker
     restart: unless-stopped
     depends_on:
-      superset:
-        condition: service_started
+      superset: { condition: service_started }
     environment:
       - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
     volumes:
       - superset_home:/app/superset_home
     command: >
-      celery
-      --app=superset.tasks.celery_app:app
-      worker
-      --pool=prefork
-      -O fair
-      -c 4
-    networks:
-      - dbt_network
+      celery --app=superset.tasks.celery_app:app worker
+      --pool=prefork -O fair -c 4
+    networks: [dbt_network]
 
-  # ==================== Apache Airflow 2.10 ====================
   postgres-airflow:
     image: postgres:15-alpine
     container_name: airflow_postgres
@@ -186,34 +150,27 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   redis:
     image: redis:7-alpine
     container_name: airflow_redis
     restart: unless-stopped
-    expose:
-      - 6379
+    expose: [6379]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 30s
       retries: 50
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   airflow-init:
-    build:
-      context: ./airflow
-      dockerfile: Dockerfile
+    build: { context: ./airflow, dockerfile: Dockerfile }
     image: dbt_sample-airflow:latest
     container_name: airflow_init
     depends_on:
-      postgres-airflow:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      postgres-airflow: { condition: service_healthy }
+      redis: { condition: service_healthy }
     environment:
       - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
@@ -232,16 +189,14 @@ services:
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
     command: version
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   airflow-webserver:
     image: dbt_sample-airflow:latest
     container_name: airflow_webserver
     restart: unless-stopped
     depends_on:
-      airflow-init:
-        condition: service_completed_successfully
+      airflow-init: { condition: service_completed_successfully }
     environment:
       - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
@@ -255,6 +210,9 @@ services:
       - ./airflow/logs:/opt/airflow/logs
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
+      - ./dbt/scripts:/opt/airflow/dbt/scripts
+      - ./dbt/profiles:/opt/airflow/dbt_profiles
+      - ./project:/opt/airflow/dbt_project
     ports:
       - "8080:8080"
     command: webserver
@@ -263,16 +221,14 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   airflow-scheduler:
     image: dbt_sample-airflow:latest
     container_name: airflow_scheduler
     restart: unless-stopped
     depends_on:
-      airflow-init:
-        condition: service_completed_successfully
+      airflow-init: { condition: service_completed_successfully }
     environment:
       - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
@@ -286,17 +242,18 @@ services:
       - ./airflow/logs:/opt/airflow/logs
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
+      - ./dbt/scripts:/opt/airflow/dbt/scripts
+      - ./dbt/profiles:/opt/airflow/dbt_profiles
+      - ./project:/opt/airflow/dbt_project
     command: scheduler
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   airflow-worker:
     image: dbt_sample-airflow:latest
     container_name: airflow_worker
     restart: unless-stopped
     depends_on:
-      airflow-init:
-        condition: service_completed_successfully
+      airflow-init: { condition: service_completed_successfully }
     environment:
       - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
@@ -310,22 +267,23 @@ services:
       - ./airflow/logs:/opt/airflow/logs
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
+      - ./dbt/scripts:/opt/airflow/dbt/scripts
+      - ./dbt/profiles:/opt/airflow/dbt_profiles
+      - ./project:/opt/airflow/dbt_project
     command: celery worker
     healthcheck:
       test: ["CMD-SHELL", "celery inspect ping -d celery@$$HOSTNAME"]
       interval: 30s
       timeout: 10s
       retries: 5
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
   airflow-triggerer:
     image: dbt_sample-airflow:latest
     container_name: airflow_triggerer
     restart: unless-stopped
     depends_on:
-      airflow-init:
-        condition: service_completed_successfully
+      airflow-init: { condition: service_completed_successfully }
     environment:
       - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
@@ -340,8 +298,7 @@ services:
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
     command: triggerer
-    networks:
-      - dbt_network
+    networks: [dbt_network]
 
 volumes:
   starrocks_data:

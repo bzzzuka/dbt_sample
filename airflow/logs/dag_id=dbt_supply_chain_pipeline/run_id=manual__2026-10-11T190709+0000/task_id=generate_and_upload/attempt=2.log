@@ -1,0 +1,190 @@
+[2026-10-11T19:09:41.758+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-10-11T19:09:41.801+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: dbt_supply_chain_pipeline.generate_and_upload manual__2026-10-11T19:07:09+00:00 [queued]>
+[2026-10-11T19:09:41.815+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: dbt_supply_chain_pipeline.generate_and_upload manual__2026-10-11T19:07:09+00:00 [queued]>
+[2026-10-11T19:09:41.816+0000] {taskinstance.py:2867} INFO - Starting attempt 2 of 2
+[2026-10-11T19:09:41.837+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): generate_and_upload> on 2026-10-11 19:07:09+00:00
+[2026-10-11T19:09:41.851+0000] {standard_task_runner.py:72} INFO - Started process 187 to run task
+[2026-10-11T19:09:41.866+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'dbt_supply_chain_pipeline', 'generate_and_upload', 'manual__2026-10-11T19:07:09+00:00', '--job-id', '50', '--raw', '--subdir', 'DAGS_FOLDER/dbt_supply_chain_dag.py', '--cfg-path', '/tmp/tmp0s4qs95e']
+[2026-10-11T19:09:41.871+0000] {standard_task_runner.py:105} INFO - Job 50: Subtask generate_and_upload
+[2026-10-11T19:09:42.190+0000] {task_command.py:467} INFO - Running <TaskInstance: dbt_supply_chain_pipeline.generate_and_upload manual__2026-10-11T19:07:09+00:00 [running]> on host 277be81ab484
+[2026-10-11T19:09:42.513+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-team' AIRFLOW_CTX_DAG_ID='dbt_supply_chain_pipeline' AIRFLOW_CTX_TASK_ID='generate_and_upload' AIRFLOW_CTX_EXECUTION_DATE='2026-10-11T19:07:09+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-10-11T19:07:09+00:00'
+[2026-10-11T19:09:42.522+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-10-11T19:09:42.641+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-10-11T19:09:42.650+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/***/dbt/scripts/generate_and_upload.py']
+[2026-10-11T19:09:42.924+0000] {subprocess.py:99} INFO - Output:
+[2026-10-11T19:10:02.126+0000] {subprocess.py:106} INFO - Генерация 15 stg-таблиц по ~120 колонок
+[2026-10-11T19:10:02.129+0000] {subprocess.py:106} INFO -   ROWS=5000, CHUNK_SIZE=2500, seed=42
+[2026-10-11T19:10:02.130+0000] {subprocess.py:106} INFO -   S3: http://minio:9000, bucket=dbt-bucket, layer=stg, partition=2026-10-11
+[2026-10-11T19:10:02.133+0000] {subprocess.py:106} INFO -   Очистка перед загрузкой: ВКЛ
+[2026-10-11T19:10:02.134+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.135+0000] {subprocess.py:106} INFO -   ✓ Bucket 'dbt-bucket' уже есть
+[2026-10-11T19:10:02.136+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.140+0000] {subprocess.py:106} INFO - >>> suppliers  (121 колонок)
+[2026-10-11T19:10:02.148+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/suppliers/
+[2026-10-11T19:10:02.148+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/suppliers/2026-10-11/suppliers_part_001.csv (2500 строк, 3251.1 KB)
+[2026-10-11T19:10:02.149+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/suppliers/2026-10-11/suppliers_part_002.csv (2500 строк, 3251.2 KB)
+[2026-10-11T19:10:02.150+0000] {subprocess.py:106} INFO -   ✓ suppliers: 5000 строк, 121 колонок, 6.35 MB
+[2026-10-11T19:10:02.151+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.151+0000] {subprocess.py:106} INFO - >>> supply_contracts  (122 колонок)
+[2026-10-11T19:10:02.152+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/supply_contracts/
+[2026-10-11T19:10:02.153+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/supply_contracts/2026-10-11/supply_contracts_part_001.csv (2500 строк, 3332.3 KB)
+[2026-10-11T19:10:02.153+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/supply_contracts/2026-10-11/supply_contracts_part_002.csv (2500 строк, 3333.1 KB)
+[2026-10-11T19:10:02.154+0000] {subprocess.py:106} INFO -   ✓ supply_contracts: 5000 строк, 122 колонок, 6.51 MB
+[2026-10-11T19:10:02.155+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.158+0000] {subprocess.py:106} INFO - >>> supply_orders  (123 колонок)
+[2026-10-11T19:10:02.159+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/supply_orders/
+[2026-10-11T19:10:02.160+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/supply_orders/2026-10-11/supply_orders_part_001.csv (2500 строк, 3153.5 KB)
+[2026-10-11T19:10:02.160+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/supply_orders/2026-10-11/supply_orders_part_002.csv (2500 строк, 3154.3 KB)
+[2026-10-11T19:10:02.161+0000] {subprocess.py:106} INFO -   ✓ supply_orders: 5000 строк, 123 колонок, 6.16 MB
+[2026-10-11T19:10:02.162+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.162+0000] {subprocess.py:106} INFO - >>> supply_items  (122 колонок)
+[2026-10-11T19:10:02.164+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/supply_items/
+[2026-10-11T19:10:02.165+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/supply_items/2026-10-11/supply_items_part_001.csv (2500 строк, 3287.8 KB)
+[2026-10-11T19:10:02.166+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/supply_items/2026-10-11/supply_items_part_002.csv (2500 строк, 3289.2 KB)
+[2026-10-11T19:10:02.166+0000] {subprocess.py:106} INFO -   ✓ supply_items: 5000 строк, 122 колонок, 6.42 MB
+[2026-10-11T19:10:02.167+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.168+0000] {subprocess.py:106} INFO - >>> shipments  (122 колонок)
+[2026-10-11T19:10:02.172+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/shipments/
+[2026-10-11T19:10:02.173+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/shipments/2026-10-11/shipments_part_001.csv (2500 строк, 3274.1 KB)
+[2026-10-11T19:10:02.174+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/shipments/2026-10-11/shipments_part_002.csv (2500 строк, 3276.0 KB)
+[2026-10-11T19:10:02.174+0000] {subprocess.py:106} INFO -   ✓ shipments: 5000 строк, 122 колонок, 6.40 MB
+[2026-10-11T19:10:02.175+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.175+0000] {subprocess.py:106} INFO - >>> warehouses  (121 колонок)
+[2026-10-11T19:10:02.176+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/warehouses/
+[2026-10-11T19:10:02.177+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/warehouses/2026-10-11/warehouses_part_001.csv (2500 строк, 3334.5 KB)
+[2026-10-11T19:10:02.178+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/warehouses/2026-10-11/warehouses_part_002.csv (2500 строк, 3335.3 KB)
+[2026-10-11T19:10:02.178+0000] {subprocess.py:106} INFO -   ✓ warehouses: 5000 строк, 121 колонок, 6.51 MB
+[2026-10-11T19:10:02.179+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.179+0000] {subprocess.py:106} INFO - >>> deliveries  (123 колонок)
+[2026-10-11T19:10:02.180+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/deliveries/
+[2026-10-11T19:10:02.181+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/deliveries/2026-10-11/deliveries_part_001.csv (2500 строк, 3344.7 KB)
+[2026-10-11T19:10:02.181+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/deliveries/2026-10-11/deliveries_part_002.csv (2500 строк, 3345.1 KB)
+[2026-10-11T19:10:02.182+0000] {subprocess.py:106} INFO -   ✓ deliveries: 5000 строк, 123 колонок, 6.53 MB
+[2026-10-11T19:10:02.182+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.183+0000] {subprocess.py:106} INFO - >>> invoices  (122 колонок)
+[2026-10-11T19:10:02.183+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/invoices/
+[2026-10-11T19:10:02.184+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/invoices/2026-10-11/invoices_part_001.csv (2500 строк, 3183.6 KB)
+[2026-10-11T19:10:02.185+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/invoices/2026-10-11/invoices_part_002.csv (2500 строк, 3183.8 KB)
+[2026-10-11T19:10:02.186+0000] {subprocess.py:106} INFO -   ✓ invoices: 5000 строк, 122 колонок, 6.22 MB
+[2026-10-11T19:10:02.186+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.187+0000] {subprocess.py:106} INFO - >>> payments  (122 колонок)
+[2026-10-11T19:10:02.187+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/payments/
+[2026-10-11T19:10:02.188+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/payments/2026-10-11/payments_part_001.csv (2500 строк, 3368.3 KB)
+[2026-10-11T19:10:02.189+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/payments/2026-10-11/payments_part_002.csv (2500 строк, 3369.0 KB)
+[2026-10-11T19:10:02.189+0000] {subprocess.py:106} INFO -   ✓ payments: 5000 строк, 122 колонок, 6.58 MB
+[2026-10-11T19:10:02.190+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.190+0000] {subprocess.py:106} INFO - >>> quality_checks  (122 колонок)
+[2026-10-11T19:10:02.191+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/quality_checks/
+[2026-10-11T19:10:02.192+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/quality_checks/2026-10-11/quality_checks_part_001.csv (2500 строк, 3151.3 KB)
+[2026-10-11T19:10:02.192+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/quality_checks/2026-10-11/quality_checks_part_002.csv (2500 строк, 3152.1 KB)
+[2026-10-11T19:10:02.193+0000] {subprocess.py:106} INFO -   ✓ quality_checks: 5000 строк, 122 колонок, 6.16 MB
+[2026-10-11T19:10:02.193+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.194+0000] {subprocess.py:106} INFO - >>> returns  (122 колонок)
+[2026-10-11T19:10:02.195+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/returns/
+[2026-10-11T19:10:02.195+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/returns/2026-10-11/returns_part_001.csv (2500 строк, 3302.4 KB)
+[2026-10-11T19:10:02.196+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/returns/2026-10-11/returns_part_002.csv (2500 строк, 3305.1 KB)
+[2026-10-11T19:10:02.197+0000] {subprocess.py:106} INFO -   ✓ returns: 5000 строк, 122 колонок, 6.45 MB
+[2026-10-11T19:10:02.197+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.198+0000] {subprocess.py:106} INFO - >>> inventory_movements  (122 колонок)
+[2026-10-11T19:10:02.198+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/inventory_movements/
+[2026-10-11T19:10:02.199+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/inventory_movements/2026-10-11/inventory_movements_part_001.csv (2500 строк, 3303.3 KB)
+[2026-10-11T19:10:02.199+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/inventory_movements/2026-10-11/inventory_movements_part_002.csv (2500 строк, 3303.4 KB)
+[2026-10-11T19:10:02.200+0000] {subprocess.py:106} INFO -   ✓ inventory_movements: 5000 строк, 122 колонок, 6.45 MB
+[2026-10-11T19:10:02.201+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.202+0000] {subprocess.py:106} INFO - >>> transport_routes  (121 колонок)
+[2026-10-11T19:10:02.202+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/transport_routes/
+[2026-10-11T19:10:02.203+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/transport_routes/2026-10-11/transport_routes_part_001.csv (2500 строк, 3205.8 KB)
+[2026-10-11T19:10:02.203+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/transport_routes/2026-10-11/transport_routes_part_002.csv (2500 строк, 3205.0 KB)
+[2026-10-11T19:10:02.204+0000] {subprocess.py:106} INFO -   ✓ transport_routes: 5000 строк, 121 колонок, 6.26 MB
+[2026-10-11T19:10:02.205+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.205+0000] {subprocess.py:106} INFO - >>> customs_declarations  (122 колонок)
+[2026-10-11T19:10:02.206+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/customs_declarations/
+[2026-10-11T19:10:02.206+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/customs_declarations/2026-10-11/customs_declarations_part_001.csv (2500 строк, 3255.4 KB)
+[2026-10-11T19:10:02.207+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/customs_declarations/2026-10-11/customs_declarations_part_002.csv (2500 строк, 3259.6 KB)
+[2026-10-11T19:10:02.208+0000] {subprocess.py:106} INFO -   ✓ customs_declarations: 5000 строк, 122 колонок, 6.36 MB
+[2026-10-11T19:10:02.208+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.209+0000] {subprocess.py:106} INFO - >>> supplier_ratings  (122 колонок)
+[2026-10-11T19:10:02.209+0000] {subprocess.py:106} INFO -     🧹 очищено 2 старых объектов под stg/supplier_ratings/
+[2026-10-11T19:10:02.210+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/supplier_ratings/2026-10-11/supplier_ratings_part_001.csv (2500 строк, 3289.4 KB)
+[2026-10-11T19:10:02.210+0000] {subprocess.py:106} INFO -     → s3://dbt-bucket/stg/supplier_ratings/2026-10-11/supplier_ratings_part_002.csv (2500 строк, 3287.5 KB)
+[2026-10-11T19:10:02.211+0000] {subprocess.py:106} INFO -   ✓ supplier_ratings: 5000 строк, 122 колонок, 6.42 MB
+[2026-10-11T19:10:02.212+0000] {subprocess.py:106} INFO - 
+[2026-10-11T19:10:02.212+0000] {subprocess.py:106} INFO - Traceback (most recent call last):
+[2026-10-11T19:10:02.213+0000] {subprocess.py:106} INFO -   File "/opt/***/dbt/scripts/generate_and_upload.py", line 503, in <module>
+[2026-10-11T19:10:02.214+0000] {subprocess.py:106} INFO -     main()
+[2026-10-11T19:10:02.215+0000] {subprocess.py:106} INFO -   File "/opt/***/dbt/scripts/generate_and_upload.py", line 492, in main
+[2026-10-11T19:10:02.215+0000] {subprocess.py:106} INFO -     SCHEMA_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
+[2026-10-11T19:10:02.216+0000] {subprocess.py:106} INFO -   File "/usr/local/lib/python3.11/pathlib.py", line 1116, in mkdir
+[2026-10-11T19:10:02.216+0000] {subprocess.py:106} INFO -     os.mkdir(self, mode)
+[2026-10-11T19:10:02.217+0000] {subprocess.py:106} INFO - PermissionError: [Errno 13] Permission denied: '/dbt'
+[2026-10-11T19:10:02.256+0000] {subprocess.py:110} INFO - Command exited with return code 1
+[2026-10-11T19:10:02.280+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/bash.py", line 276, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-10-11T19:10:02.289+0000] {taskinstance.py:1226} INFO - Marking task as FAILED. dag_id=dbt_supply_chain_pipeline, task_id=generate_and_upload, run_id=manual__2026-10-11T19:07:09+00:00, execution_date=20261011T190709, start_date=20261011T190941, end_date=20261011T191002
+[2026-10-11T19:10:02.350+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-10-11T19:10:02.353+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 50 for task generate_and_upload (Bash command failed. The command returned a non-zero exit code 1.; 187)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3006, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 274, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3161, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3185, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/bash.py", line 276, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-10-11T19:10:02.387+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-10-11T19:10:02.403+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
