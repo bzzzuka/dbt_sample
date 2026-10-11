@@ -8,15 +8,22 @@ WORKDIR /dbt
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Зеркало PyPI (Tsinghua, обычно 10-50 МБ/с из РФ)
 RUN pip install --no-cache-dir --upgrade pip && \
     pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
-    pip config set global.trusted-host pypi.tuna.tsinghua.edu.cn && \
-    pip install --no-cache-dir \
-    dbt-core==1.9.0 \
-    dbt-starrocks==1.9.0 \
+    pip config set global.trusted-host pypi.tuna.tsinghua.edu.cn
+
+# 1. Совместимая пара: dbt-core 1.6.2 + dbt-starrocks 1.6.2
+RUN pip install --no-cache-dir \
+    dbt-core==1.6.2 \
+    dbt-starrocks==1.6.2
+
+# 2. Принудительный откат драйвера на 8.0.22 (лечит баг server_version)
+RUN pip install --no-cache-dir --force-reinstall --no-deps \
+    mysql-connector-python==8.0.22
+
+# 3. Остальные утилиты
+RUN pip install --no-cache-dir \
     boto3 \
-    pymysql \
     pandas \
     requests
 

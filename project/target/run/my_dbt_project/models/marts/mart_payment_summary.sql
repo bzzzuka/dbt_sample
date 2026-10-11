@@ -2,32 +2,32 @@
   
     
 
-  create  table "dbt_db"."public"."mart_payment_summary__dbt_tmp"
-  
-  
-    as
-  
-  (
-    
+  create table `analytics`.`mart_payment_summary__dbt_tmp`
+      PRIMARY KEY (month,currency)
+    DISTRIBUTED BY HASH (month) BUCKETS 4
+    PROPERTIES (
+      "replication_num" = "1"
+    )
+  as 
 
 WITH invoices AS (
     SELECT
-        DATE_TRUNC('month', invoice_date)  AS invoice_month,
+        DATE_FORMAT(invoice_date, '%Y-%m-01')  AS invoice_month,
         currency,
         payment_status,
-        COUNT(*)                           AS invoices_count,
-        SUM(total_price)                   AS invoices_total
-    FROM "dbt_db"."public"."stg_invoices"
+        COUNT(*)                                AS invoices_count,
+        SUM(total_price)                        AS invoices_total
+    FROM `analytics`.`stg_invoices`
     GROUP BY 1, 2, 3
 ),
 payments AS (
     SELECT
-        DATE_TRUNC('month', payment_date)  AS payment_month,
+        DATE_FORMAT(payment_date, '%Y-%m-01')  AS payment_month,
         currency,
         payment_status,
-        COUNT(*)                           AS payments_count,
-        SUM(total_price)                   AS payments_total
-    FROM "dbt_db"."public"."stg_payments"
+        COUNT(*)                                AS payments_count,
+        SUM(total_price)                        AS payments_total
+    FROM `analytics`.`stg_payments`
     GROUP BY 1, 2, 3
 )
 SELECT
@@ -46,5 +46,4 @@ FROM invoices i
 FULL OUTER JOIN payments p
     ON i.invoice_month = p.payment_month
    AND i.currency = p.currency
-  );
   

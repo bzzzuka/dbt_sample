@@ -5,7 +5,7 @@
     table_type='PRIMARY',
     distributed_by=['month'],
     buckets=4,
-    properties={"replication_num": "1"}
+    properties='{"replication_num": "1"}'
 ) }}
 
 WITH invoices AS (

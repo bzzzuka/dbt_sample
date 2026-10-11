@@ -2,13 +2,13 @@
   
     
 
-  create  table "dbt_db"."public"."mart_transport_analysis__dbt_tmp"
-  
-  
-    as
-  
-  (
-    
+  create table `analytics`.`mart_transport_analysis__dbt_tmp`
+      PRIMARY KEY (transport_mode)
+    DISTRIBUTED BY HASH (transport_mode) BUCKETS 4
+    PROPERTIES (
+      "replication_num" = "1"
+    )
+  as 
 
 WITH routes AS (
     SELECT
@@ -18,7 +18,7 @@ WITH routes AS (
         AVG(distance_km)     AS avg_distance_km,
         MIN(distance_km)     AS min_distance_km,
         MAX(distance_km)     AS max_distance_km
-    FROM "dbt_db"."public"."stg_transport_routes"
+    FROM `analytics`.`stg_transport_routes`
     GROUP BY transport_mode
 ),
 shipments AS (
@@ -28,7 +28,7 @@ shipments AS (
         SUM(shipping_cost)   AS total_shipping_cost,
         AVG(shipping_cost)   AS avg_shipping_cost,
         SUM(weight_kg)       AS total_weight_kg
-    FROM "dbt_db"."public"."stg_shipments"
+    FROM `analytics`.`stg_shipments`
     GROUP BY transport_mode
 )
 SELECT
@@ -47,5 +47,4 @@ SELECT
     END                                          AS cost_per_km
 FROM routes r
 FULL OUTER JOIN shipments s USING (transport_mode)
-  );
   

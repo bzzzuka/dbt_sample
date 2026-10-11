@@ -1,9 +1,5 @@
 
-  create view "dbt_db"."public"."stg_returns__dbt_tmp"
-    
-    
-  as (
-    
+  create view `analytics`.`stg_returns__dbt_tmp` as 
 
-SELECT * FROM "dbt_db"."public"."raw_returns"
-  );
+SELECT *
+FROM `analytics`.`raw_returns`;

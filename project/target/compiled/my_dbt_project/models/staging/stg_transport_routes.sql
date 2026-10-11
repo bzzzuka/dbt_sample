@@ -1,3 +1,4 @@
 
 
-SELECT * FROM "dbt_db"."public"."raw_transport_routes"
+SELECT *
+FROM `analytics`.`raw_transport_routes`

@@ -8,7 +8,7 @@ WITH routes AS (
         AVG(distance_km)     AS avg_distance_km,
         MIN(distance_km)     AS min_distance_km,
         MAX(distance_km)     AS max_distance_km
-    FROM "dbt_db"."public"."stg_transport_routes"
+    FROM `analytics`.`stg_transport_routes`
     GROUP BY transport_mode
 ),
 shipments AS (
@@ -18,7 +18,7 @@ shipments AS (
         SUM(shipping_cost)   AS total_shipping_cost,
         AVG(shipping_cost)   AS avg_shipping_cost,
         SUM(weight_kg)       AS total_weight_kg
-    FROM "dbt_db"."public"."stg_shipments"
+    FROM `analytics`.`stg_shipments`
     GROUP BY transport_mode
 )
 SELECT

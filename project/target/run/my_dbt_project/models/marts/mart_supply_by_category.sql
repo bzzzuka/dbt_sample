@@ -2,13 +2,13 @@
   
     
 
-  create  table "dbt_db"."public"."mart_supply_by_category__dbt_tmp"
-  
-  
-    as
-  
-  (
-    
+  create table `analytics`.`mart_supply_by_category__dbt_tmp`
+      PRIMARY KEY (category)
+    DISTRIBUTED BY HASH (category) BUCKETS 4
+    PROPERTIES (
+      "replication_num" = "1"
+    )
+  as 
 
 SELECT
     i.category,
@@ -18,8 +18,7 @@ SELECT
     SUM(i.total_price)                         AS total_revenue,
     AVG(i.unit_price)                          AS avg_unit_price,
     COUNT(DISTINCT i.unit_of_measure)          AS uom_variety
-FROM "dbt_db"."public"."stg_supply_items" i
+FROM `analytics`.`stg_supply_items` i
 GROUP BY i.category
 ORDER BY total_revenue DESC
-  );
   

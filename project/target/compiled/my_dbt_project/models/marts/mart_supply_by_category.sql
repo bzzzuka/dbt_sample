@@ -8,6 +8,6 @@ SELECT
     SUM(i.total_price)                         AS total_revenue,
     AVG(i.unit_price)                          AS avg_unit_price,
     COUNT(DISTINCT i.unit_of_measure)          AS uom_variety
-FROM "dbt_db"."public"."stg_supply_items" i
+FROM `analytics`.`stg_supply_items` i
 GROUP BY i.category
 ORDER BY total_revenue DESC

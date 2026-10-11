@@ -5,7 +5,7 @@
     table_type='PRIMARY',
     distributed_by=['transport_mode'],
     buckets=4,
-    properties={"replication_num": "1"}
+    properties='{"replication_num": "1"}'
 ) }}
 
 WITH routes AS (

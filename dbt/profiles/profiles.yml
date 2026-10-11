@@ -3,7 +3,7 @@ default:
   outputs:
     dev:
       type: starrocks
-      host: "{{ env_var('STARROCKS_HOST', 'starrocks-fe') }}"
+      host: "{{ env_var('STARROCKS_HOST', 'starrocks') }}"
       port: "{{ env_var('STARROCKS_PORT', '9030') | int }}"
       schema: "{{ env_var('STARROCKS_SCHEMA', 'analytics') }}"
       username: "{{ env_var('STARROCKS_USER', 'root') }}"

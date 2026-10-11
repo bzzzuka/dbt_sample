@@ -1,3 +1,4 @@
 
 
-SELECT * FROM "dbt_db"."public"."raw_deliveries"
+SELECT *
+FROM `analytics`.`raw_deliveries`

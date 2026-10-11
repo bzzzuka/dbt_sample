@@ -1,9 +1,5 @@
 
-  create view "dbt_db"."public"."stg_transport_routes__dbt_tmp"
-    
-    
-  as (
-    
+  create view `analytics`.`stg_transport_routes__dbt_tmp` as 
 
-SELECT * FROM "dbt_db"."public"."raw_transport_routes"
-  );
+SELECT *
+FROM `analytics`.`raw_transport_routes`;
