@@ -135,6 +135,7 @@ services:
       --pool=prefork -O fair -c 4
     networks: [dbt_network]
 
+  # ==================== Apache Airflow 2.10 ====================
   postgres-airflow:
     image: postgres:15-alpine
     container_name: airflow_postgres
@@ -298,6 +299,45 @@ services:
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
     command: triggerer
+    networks: [dbt_network]
+
+  # ==================== Spark + Iceberg (Lakehouse) ====================
+  iceberg-rest:
+    image: apache/iceberg-rest-fixture:1.10.1
+    container_name: iceberg_rest
+    restart: unless-stopped
+    environment:
+      - CATALOG_WAREHOUSE=s3://dbt-bucket/warehouse
+      - CATALOG_IO__IMPL=org.apache.iceberg.aws.s3.S3FileIO
+      - CATALOG_S3_ENDPOINT=http://minio:9000
+      - CATALOG_S3_ACCESS__KEY__ID=minioadmin
+      - CATALOG_S3_SECRET__ACCESS__KEY=minioadmin
+      - CATALOG_S3_PATH__STYLE__ACCESS=true
+      - AWS_REGION=us-east-1
+    ports:
+      - "8181:8181"
+    networks: [dbt_network]
+
+  spark-iceberg:
+    image: apache/spark:3.5.6
+    container_name: spark_iceberg
+    restart: unless-stopped
+    depends_on:
+      - iceberg-rest
+      - minio
+    environment:
+      - AWS_ACCESS_KEY_ID=minioadmin
+      - AWS_SECRET_ACCESS_KEY=minioadmin
+      - AWS_REGION=us-east-1
+    volumes:
+      - ./spark/conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+      - ./spark/jobs:/opt/spark/jobs
+    ports:
+      - "8888:8888"
+      - "8082:8080"
+      - "10000:10000"
+      - "4040:4040"
+    command: ["tail", "-f", "/dev/null"]
     networks: [dbt_network]
 
 volumes:
