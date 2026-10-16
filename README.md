@@ -5,24 +5,24 @@
 
 ## Содержание
 
-- О проекте
-- Архитектура
-- Стек
-- Структура проекта
-- Быстрый старт
-- Как всё устроено
-- Интерфейсы
-- Полезные команды
-- Troubleshooting
-- Roadmap
+- [О проекте](#о-проекте)
+- [Архитектура](#архитектура)
+- [Стек](#стек)
+- [Структура проекта](#структура-проекта)
+- [Быстрый старт](#быстрый-старт)
+- [Как всё устроено](#как-всё-устроено)
+- [Интерфейсы](#интерфейсы)
+- [Полезные команды](#полезные-команды)
+- [Troubleshooting](#troubleshooting)
+- [Roadmap](#roadmap)
 
 ---
 
 ## О проекте
 
-Учебный local lakehouse — полный цикл data engineering на одной машине через Docker Compose.
+Учебный **local lakehouse** — полный цикл data engineering на одной машине через Docker Compose.
 
-Что умеет:
+**Что умеет:**
 
 - Генерирует синтетические данные (15 таблиц × ~120 колонок о поставках)
 - Хранит их в S3-совместимом хранилище (MinIO)
@@ -32,16 +32,17 @@
 - Визуализирует в Superset
 - Оркестрирует через Airflow
 
-Ключевые концепции:
+**Ключевые концепции:**
 
-- Compute-storage separation — данные в S3, вычислители (Spark, StarRocks) читают их независимо
-- Lakehouse — open table format (Iceberg) поверх S3
-- Слои данных — raw → staging → marts
+- **Compute-storage separation** — данные в S3, вычислители (Spark, StarRocks) читают их независимо
+- **Lakehouse** — open table format (Iceberg) поверх S3
+- **Слои данных** — raw → staging → marts
 
 ---
 
 ## Архитектура
 
+```
                         +----------------------------------+
                         |           AIRFLOW 2.10           |
                         |       (оркестрация DAG'ов)       |
@@ -71,25 +72,27 @@
                                                        |     SUPERSET       |
                                                        |     (BI / DASH)    |
                                                        +--------------------+
+```
 
 ---
 
 ## Стек
 
-| Компонент     | Версия              | Порт                | Назначение                   |
-|---------------|---------------------|---------------------|------------------------------|
-| StarRocks     | 3.4 (allin1)        | 8030, 9030, 8040    | OLAP-база (MySQL-протокол)   |
-| MinIO         | latest (coollabsio) | 9000, 9001          | S3-совместимое хранилище     |
-| dbt           | 1.6.2 + dbt-starrocks | —                 | SQL-трансформации            |
-| Superset      | 4.1.2               | 8088                | BI и дашборды                |
-| Airflow       | 2.10.5 (py3.11)     | 8080                | Оркестрация                  |
-| Spark         | 3.5.6               | 4040, 8082, 10000   | ETL-движок                   |
-| Iceberg REST  | 1.10.1 (fixture)    | 8181                | Каталог Iceberg-таблиц       |
+| Компонент     | Версия                | Порт              | Назначение                 |
+|---------------|-----------------------|-------------------|----------------------------|
+| StarRocks     | 3.4 (allin1)          | 8030, 9030, 8040  | OLAP-база (MySQL-протокол) |
+| MinIO         | latest (coollabsio)   | 9000, 9001        | S3-совместимое хранилище   |
+| dbt           | 1.6.2 + dbt-starrocks | —                 | SQL-трансформации          |
+| Superset      | 4.1.2                 | 8088              | BI и дашборды              |
+| Airflow       | 2.10.5 (py3.11)       | 8080              | Оркестрация                |
+| Spark         | 3.5.6                 | 4040, 8082, 10000 | ETL-движок                 |
+| Iceberg REST  | 1.10.1 (fixture)      | 8181              | Каталог Iceberg-таблиц     |
 
 ---
 
 ## Структура проекта
 
+```
 dbt_sample/
 ├── .env                          # Переменные окружения
 ├── docker-compose.yml            # Все сервисы
@@ -100,7 +103,9 @@ dbt_sample/
 │
 ├── dbt/                          # Инфраструктура dbt
 │   ├── Dockerfile
-│   ├── profiles/profiles.yml
+│   ├── README.md
+│   ├── profiles/
+│   │   └── profiles.yml
 │   └── scripts/
 │       ├── init.sh
 │       ├── run_dbt.sh
@@ -119,6 +124,7 @@ dbt_sample/
 │
 ├── superset/                     # BI
 │   ├── Dockerfile
+│   ├── README.md
 │   ├── requirements-local.txt
 │   └── init/
 │       ├── init-db.sh
@@ -127,17 +133,21 @@ dbt_sample/
 │
 ├── airflow/                      # Оркестрация
 │   ├── Dockerfile
+│   ├── README.md
 │   ├── requirements.txt
 │   └── dags/
 │       ├── dbt_supply_chain_dag.py
 │       └── spark_etl_dag.py
 │
 └── spark/                        # Lakehouse
-    ├── conf/spark-defaults.conf
+    ├── README.md
+    ├── conf/
+    │   └── spark-defaults.conf
     ├── jobs/
     │   ├── etl_supply_chain.py
     │   └── verify_iceberg.py
     └── init-starrocks.sql
+```
 
 ---
 
@@ -145,75 +155,87 @@ dbt_sample/
 
 ### Требования
 
-- Docker Desktop >= 4.30 (Windows / Mac) или Docker Engine (Linux)
-- Docker Compose v2
-- ОЗУ: минимум 8 ГБ на хосте, рекомендуется 16 ГБ
-- Диск: ~15 ГБ
+- **Docker Desktop** >= 4.30 (Windows / Mac) или Docker Engine (Linux)
+- **Docker Compose** v2
+- **ОЗУ**: минимум **8 ГБ** на хосте, рекомендуется **16 ГБ**
+- **Диск**: ~15 ГБ
 
 ### Настройка памяти Docker (Windows)
 
-Файл C:\Users\<user>\.wslconfig:
+В `.wslconfig` (Windows):
 
-    [wsl2]
-    memory=8GB
-    processors=4
-    swap=2GB
+```ini
+[wsl2]
+memory=8GB
+processors=4
+swap=2GB
+```
 
-При 8 ГБ хоста — memory=5GB и работать по режимам.
+При 8 ГБ хоста — `memory=5GB` и работать по режимам.
 
 Проверить:
 
-    docker info | Select-String "Total Memory"
+```powershell
+docker info | Select-String "Total Memory"
+```
 
-### Шаг 1. Настроить .env
+### Шаг 1. Настроить `.env`
 
-    # StarRocks
-    STARROCKS_HOST=starrocks
-    STARROCKS_PORT=9030
-    STARROCKS_USER=root
-    STARROCKS_PASSWORD=
-    STARROCKS_SCHEMA=analytics
-    STARROCKS_CATALOG=default_catalog
+```env
+# StarRocks
+STARROCKS_HOST=starrocks
+STARROCKS_PORT=9030
+STARROCKS_USER=root
+STARROCKS_PASSWORD=
+STARROCKS_SCHEMA=analytics
+STARROCKS_CATALOG=default_catalog
 
-    # MinIO
-    MINIO_ROOT_USER=minioadmin
-    MINIO_ROOT_PASSWORD=minioadmin
-    MINIO_ENDPOINT=http://minio:9000
-    MINIO_BUCKET=dbt-bucket
-    MINIO_REGION=us-east-1
+# MinIO
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin
+MINIO_ENDPOINT=http://minio:9000
+MINIO_BUCKET=dbt-bucket
+MINIO_REGION=us-east-1
 
-    # Данные
-    LAYER=stg
-    ROWS=5000
-    CHUNK_SIZE=2500
-    COLUMNS_PER_TABLE=120
-    WRITE_LOCAL=false
-    CLEAN_BEFORE_UPLOAD=false
-    BATCH_OFFSET=0
+# Данные
+LAYER=stg
+ROWS=5000
+CHUNK_SIZE=2500
+COLUMNS_PER_TABLE=120
+WRITE_LOCAL=false
+CLEAN_BEFORE_UPLOAD=false
+BATCH_OFFSET=0
 
-    # Секреты
-    SUPERSET_SECRET_KEY=change_me_to_random_string
-    AIRFLOW_FERNET_KEY=8mX2rT9pLqK5vB1wYhN7jF3dC6sA0eU4xZbGqRkMnPc=
-    AIRFLOW__WEBSERVER__SECRET_KEY=airflow_secret_local
+# Секреты
+SUPERSET_SECRET_KEY=change_me_to_random_string
+AIRFLOW_FERNET_KEY=8mX2rT9pLqK5vB1wYhN7jF3dC6sA0eU4xZbGqRkMnPc=
+AIRFLOW__WEBSERVER__SECRET_KEY=airflow_secret_local
+```
 
 ### Шаг 2. Запустить нужный режим
 
-Airflow-режим (StarRocks + MinIO + dbt + Airflow):
+**Airflow-режим** (StarRocks + MinIO + dbt + Airflow):
 
-    .\start-airflow.ps1
+```powershell
+.\start-airflow.ps1
+```
 
-Superset-режим (StarRocks + MinIO + dbt + Superset):
+**Superset-режим** (StarRocks + MinIO + dbt + Superset):
 
-    .\start-superset.ps1
+```powershell
+.\start-superset.ps1
+```
 
-Всё сразу (нужно >=7 ГБ Docker RAM):
+**Всё сразу** (нужно >=7 ГБ Docker RAM):
 
-    .\start-all.ps1
+```powershell
+.\start-all.ps1
+```
 
-Важно: на Windows PowerShell указывай .\ перед именем скрипта.
-Если PowerShell ругается на политику — выполни один раз:
-
-    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+> На Windows PowerShell указывай `.\` перед именем скрипта. Если PowerShell ругается на политику — выполни один раз:
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+> ```
 
 ---
 
@@ -221,25 +243,27 @@ Superset-режим (StarRocks + MinIO + dbt + Superset):
 
 ### Data Flow
 
-    1. data-init
-       - Генерация 15 CSV (5000 строк x ~120 колонок)
-       - Загрузка в s3://dbt-bucket/stg/{table}/{date}/*.csv
-       - Сохранение /tmp/_schema.json
-       - Создание raw_{table} в StarRocks
+```
+1. data-init
+   - Генерация 15 CSV (5000 строк x ~120 колонок)
+   - Загрузка в s3://dbt-bucket/stg/{table}/{date}/*.csv
+   - Сохранение /tmp/_schema.json
+   - Создание raw_{table} в StarRocks
 
-    2. dbt
-       - dbt run  -> 15 stg views + 6 mart tables
-       - dbt test -> 9 тестов
+2. dbt
+   - dbt run  -> 15 stg views + 6 mart tables
+   - dbt test -> 9 тестов
 
-    3. Spark ETL (опционально)
-       - Читает CSV из s3a://dbt-bucket/stg/*/*.csv
-       - Пишет Iceberg: lakehouse.supply_chain.{table}
+3. Spark ETL (опционально)
+   - Читает CSV из s3a://dbt-bucket/stg/*/*.csv
+   - Пишет Iceberg: lakehouse.supply_chain.{table}
 
-    4. StarRocks external catalog
-       - Читает Iceberg через iceberg_lakehouse.{schema}.{table}
+4. StarRocks external catalog
+   - Читает Iceberg через iceberg_lakehouse.{schema}.{table}
 
-    5. Superset
-       - Дашборды поверх mart_* и Iceberg
+5. Superset
+   - Дашборды поверх mart_* и Iceberg
+```
 
 ### Слои данных
 
@@ -252,31 +276,31 @@ Superset-режим (StarRocks + MinIO + dbt + Superset):
 
 ### Ключевые принципы
 
-1. Разделение инфраструктуры и логики — Dockerfile не равен моделям
-2. Compute-storage separation — данные в S3, вычислители читают независимо
-3. Идемпотентность — каждый шаг можно запустить дважды
-4. Модульность — dbt/, superset/, airflow/, spark/ независимы
+1. **Разделение инфраструктуры и логики** — Dockerfile не равен моделям
+2. **Compute-storage separation** — данные в S3, вычислители читают независимо
+3. **Идемпотентность** — каждый шаг можно запустить дважды
+4. **Модульность** — dbt/, superset/, airflow/, spark/ независимы
 
 ---
 
 ## Интерфейсы
 
-| Сервис         | URL                        | Логин / пароль          |
-|----------------|----------------------------|-------------------------|
-| Airflow        | http://localhost:8080      | admin / admin           |
-| Superset       | http://localhost:8088      | admin / admin           |
-| MinIO          | http://localhost:9001      | minioadmin / minioadmin |
-| StarRocks FE   | http://localhost:8030      | root / (пусто)          |
-| Spark UI       | http://localhost:4040      | —                       |
+| Сервис       | URL                     | Логин / пароль          |
+|--------------|-------------------------|-------------------------|
+| Airflow      | http://localhost:8080   | admin / admin           |
+| Superset     | http://localhost:8088   | admin / admin           |
+| MinIO        | http://localhost:9001   | minioadmin / minioadmin |
+| StarRocks FE | http://localhost:8030   | root / (пусто)          |
+| Spark UI     | http://localhost:4040   | —                       |
 
 ### Подключение из DBeaver к StarRocks
 
-- Type: MySQL
-- Host: localhost
-- Port: 9030
-- User: root
-- Password: (пусто)
-- Database: analytics
+- Type: **MySQL**
+- Host: `localhost`
+- Port: `9030`
+- User: `root`
+- Password: *(пусто)*
+- Database: `analytics`
 
 ---
 
@@ -284,53 +308,65 @@ Superset-режим (StarRocks + MinIO + dbt + Superset):
 
 ### Запуск / остановка
 
-    # Остановить всё
-    docker compose down
+```powershell
+# Остановить всё
+docker compose down
 
-    # Полный сброс (с данными)
-    docker compose down -v
+# Полный сброс (с данными)
+docker compose down -v
 
-    # Запустить конкретный сервис
-    docker compose up -d starrocks minio
+# Запустить конкретный сервис
+docker compose up -d starrocks minio
 
-    # Пересоздать с новыми volumes
-    docker compose up -d --force-recreate airflow-worker
+# Пересоздать с новыми volumes
+docker compose up -d --force-recreate airflow-worker
+```
 
 ### dbt
 
-    docker compose run --rm --no-deps dbt dbt run
-    docker compose run --rm --no-deps dbt dbt test
-    docker compose run --rm --no-deps dbt dbt run --select stg_suppliers
-    docker compose run --rm --no-deps dbt dbt ls
+```powershell
+docker compose run --rm --no-deps dbt dbt run
+docker compose run --rm --no-deps dbt dbt test
+docker compose run --rm --no-deps dbt dbt run --select stg_suppliers
+docker compose run --rm --no-deps dbt dbt ls
+```
 
 ### Spark
 
-    # Spark SQL
-    docker exec -it spark_iceberg /opt/spark/bin/spark-sql
+```powershell
+# Spark SQL
+docker exec -it spark_iceberg /opt/spark/bin/spark-sql
 
-    # ETL
-    docker exec -it spark_iceberg /opt/spark/bin/spark-submit /opt/spark/jobs/etl_supply_chain.py
+# ETL
+docker exec -it spark_iceberg /opt/spark/bin/spark-submit /opt/spark/jobs/etl_supply_chain.py
+```
 
 ### Airflow
 
-    docker exec -it airflow_scheduler airflow dags list
-    docker exec -it airflow_scheduler airflow dags trigger dbt_supply_chain_pipeline
-    docker compose logs -f airflow-scheduler
+```powershell
+docker exec -it airflow_scheduler airflow dags list
+docker exec -it airflow_scheduler airflow dags trigger dbt_supply_chain_pipeline
+docker compose logs -f airflow-scheduler
+```
 
 ### StarRocks (проверки)
 
-    # Таблицы
-    docker exec starrocks mysql -h 127.0.0.1 -P 9030 -uroot -e "USE analytics; SHOW TABLES"
+```powershell
+# Таблицы
+docker exec starrocks mysql -h 127.0.0.1 -P 9030 -uroot -e "USE analytics; SHOW TABLES"
 
-    # Iceberg
-    docker exec starrocks mysql -h 127.0.0.1 -P 9030 -uroot -e "SHOW CATALOGS"
-    docker exec starrocks mysql -h 127.0.0.1 -P 9030 -uroot -e "SELECT COUNT(*) FROM iceberg_lakehouse.supply_chain.suppliers"
+# Iceberg
+docker exec starrocks mysql -h 127.0.0.1 -P 9030 -uroot -e "SHOW CATALOGS"
+docker exec starrocks mysql -h 127.0.0.1 -P 9030 -uroot -e "SELECT COUNT(*) FROM iceberg_lakehouse.supply_chain.suppliers"
+```
 
 ### Мониторинг
 
-    docker compose ps
-    docker stats --no-stream
-    docker compose logs -f starrocks
+```powershell
+docker compose ps
+docker stats --no-stream
+docker compose logs -f starrocks
+```
 
 ---
 
@@ -338,56 +374,56 @@ Superset-режим (StarRocks + MinIO + dbt + Superset):
 
 ### Docker
 
-| Ошибка                              | Решение                        |
-|-------------------------------------|--------------------------------|
-| failed size validation при pull     | Повторить docker pull 2–3 раза |
-| cannot find the file specified      | Перезапустить Docker Desktop   |
-| 500 Internal Server Error           | OOM — wsl --shutdown + перезапуск |
+| Ошибка                          | Решение                        |
+|---------------------------------|--------------------------------|
+| failed size validation при pull | Повторить docker pull 2–3 раза |
+| cannot find the file specified  | Перезапустить Docker Desktop   |
+| 500 Internal Server Error       | OOM — wsl --shutdown + перезапуск |
 
 ### StarRocks
 
-| Ошибка                            | Решение                                       |
-|-----------------------------------|-----------------------------------------------|
-| Cluster has no available capacity | Использовать allin1-ubuntu (FE+BE вместе)     |
-| scheme is null в FILES()          | Грузить по одному файлу без wildcards         |
-| Column 'X' is ambiguous           | Использовать ON a.col = b.col вместо USING    |
-| Insert has filtered data          | COALESCE(col, 'unknown') в CTE                |
+| Ошибка                            | Решение                                    |
+|-----------------------------------|--------------------------------------------|
+| Cluster has no available capacity | Использовать allin1-ubuntu (FE+BE вместе)  |
+| scheme is null в FILES()          | Грузить по одному файлу без wildcards      |
+| Column 'X' is ambiguous           | Использовать ON a.col = b.col вместо USING |
+| Insert has filtered data          | COALESCE(col, 'unknown') в CTE             |
 
 ### dbt
 
-| Ошибка                                 | Решение                                                       |
-|----------------------------------------|---------------------------------------------------------------|
-| CMySQLConnection object has no setter  | dbt-core 1.6.2 + dbt-starrocks 1.6.2 + mysql-connector-python 8.0.22 |
-| properties JSON error                  | properties='{...}' — строка, не dict                          |
-| dbt: command not found в Airflow       | PATH=/home/airflow/.local/bin:... в env DAG                   |
+| Ошибка                                | Решение                                                       |
+|---------------------------------------|---------------------------------------------------------------|
+| CMySQLConnection object has no setter | dbt-core 1.6.2 + dbt-starrocks 1.6.2 + mysql-connector-python 8.0.22 |
+| properties JSON error                 | properties='{...}' — строка, не dict                          |
+| dbt: command not found в Airflow      | PATH=/home/airflow/.local/bin:... в env DAG                   |
 
 ### Spark
 
-| Ошибка                                     | Решение                                                     |
-|--------------------------------------------|-------------------------------------------------------------|
-| FileNotFoundException: /home/spark/.ivy2   | spark.jars.ivy=/tmp/.ivy2                                   |
-| ClassNotFoundException: S3AFileSystem      | Добавить hadoop-aws:3.3.4 + aws-java-sdk-bundle в packages  |
-| Maven долго качает                         | Первый запуск ~70 МБ, кэшируется                             |
+| Ошибка                                   | Решение                                                    |
+|------------------------------------------|------------------------------------------------------------|
+| FileNotFoundException: /home/spark/.ivy2 | spark.jars.ivy=/tmp/.ivy2                                  |
+| ClassNotFoundException: S3AFileSystem    | Добавить hadoop-aws:3.3.4 + aws-java-sdk-bundle в packages |
+| Maven долго качает                       | Первый запуск ~70 МБ, кэшируется                            |
 
 ### Память
 
-Exited (137) = OOM.
+`Exited (137)` = OOM.
 
-- Увеличить .wslconfig: memory=8GB (при 16 ГБ хоста)
-- Работать по режимам: start-airflow.ps1 / start-superset.ps1
-- Останавливать ненужное: docker compose stop airflow-worker
+- Увеличить `.wslconfig`: `memory=8GB` (при 16 ГБ хоста)
+- Работать по режимам: `start-airflow.ps1` / `start-superset.ps1`
+- Останавливать ненужное: `docker compose stop airflow-worker`
 
 ---
 
 ## Известные ограничения
 
-| Ограничение              | Причина                          | Workaround                       |
-|--------------------------|----------------------------------|----------------------------------|
-| Память                   | 4.8 ГБ Docker RAM                | Работа по режимам                |
-| StarRocks healthcheck    | Не задан в образе                | condition: service_started       |
-| dbt-starrocks            | 1.6.2 — последняя стабильная     | Не обновлять до 1.7+             |
-| Maven Spark              | Качается при первом запуске      | Кэш /tmp/.ivy2                   |
-| Iceberg REST fixture     | Не production-ready              | Для локальной разработки ок      |
+| Ограничение           | Причина                       | Workaround                  |
+|-----------------------|-------------------------------|-----------------------------|
+| Память                | 4.8 ГБ Docker RAM             | Работа по режимам           |
+| StarRocks healthcheck | Не задан в образе             | condition: service_started  |
+| dbt-starrocks         | 1.6.2 — последняя стабильная  | Не обновлять до 1.7+        |
+| Maven Spark           | Качается при первом запуске   | Кэш /tmp/.ivy2              |
+| Iceberg REST fixture  | Не production-ready           | Для локальной разработки ок |
 
 ---
 
@@ -433,17 +469,17 @@ Exited (137) = OOM.
 
 Учебный проект. Компоненты под своими лицензиями:
 
-| Компонент      | Лицензия    |
-|----------------|-------------|
-| StarRocks      | Apache 2.0  |
-| MinIO          | AGPL v3     |
-| dbt-core       | Apache 2.0  |
-| dbt-starrocks  | Apache 2.0  |
-| Superset       | Apache 2.0  |
-| Airflow        | Apache 2.0  |
-| Spark          | Apache 2.0  |
-| Iceberg        | Apache 2.0  |
+| Компонент     | Лицензия   |
+|---------------|------------|
+| StarRocks     | Apache 2.0 |
+| MinIO         | AGPL v3    |
+| dbt-core      | Apache 2.0 |
+| dbt-starrocks | Apache 2.0 |
+| Superset      | Apache 2.0 |
+| Airflow       | Apache 2.0 |
+| Spark         | Apache 2.0 |
+| Iceberg       | Apache 2.0 |
 
 ---
 
-Последнее обновление: октябрь 2026
+*Последнее обновление: октябрь 2026*
