@@ -10,3 +10,4 @@ default:
       password: "{{ env_var('STARROCKS_PASSWORD', '') }}"
       catalog: "{{ env_var('STARROCKS_CATALOG', 'default_catalog') }}"
       version: "3.4.0"
+      use_pure: "true"

@@ -14,5 +14,6 @@ RUN pip install --no-cache-dir \
     pandas \
     requests
 
+# Принудительный откат драйвера на 8.0.33
 RUN pip install --no-cache-dir --force-reinstall --no-deps \
-    mysql-connector-python==8.0.22
+    mysql-connector-python==8.0.33
