@@ -17356,3 +17356,647 @@ having count(*) > 1
 [0m22:56:55.494974 [debug] [MainThread]: Command `dbt test` succeeded at 22:56:55.494858 after 1.06 seconds
 [0m22:56:55.495791 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7263fe78e450>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x726401b4eb50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x726401b4e850>]}
 [0m22:56:55.496609 [debug] [MainThread]: Flushing usage events
+[0m18:13:47.839284 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea5f8d3610>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea5f8d3190>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea5f8c9b90>]}
+
+
+============================== 18:13:47.850451 | 551d90fa-d06b-43c8-90ac-d23c5f12b83e ==============================
+[0m18:13:47.850451 [info ] [MainThread]: Running with dbt=1.6.2
+[0m18:13:47.854061 [debug] [MainThread]: running dbt with arguments {'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'fail_fast': 'False', 'use_experimental_parser': 'False', 'log_format': 'default', 'version_check': 'True', 'introspect': 'True', 'debug': 'False', 'log_path': '/dbt/project/logs', 'target_path': 'None', 'static_parser': 'True', 'log_cache_events': 'False', 'cache_selected_only': 'False', 'profiles_dir': '/dbt/profiles', 'indirect_selection': 'eager', 'invocation_command': 'dbt debug', 'partial_parse': 'True', 'no_print': 'None', 'printer_width': '80', 'write_json': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'warn_error': 'None', 'use_colors': 'True'}
+[0m18:13:47.857216 [info ] [MainThread]: dbt version: 1.6.2
+[0m18:13:47.858988 [info ] [MainThread]: python version: 3.11.17
+[0m18:13:47.860870 [info ] [MainThread]: python path: /opt/venv/bin/python
+[0m18:13:47.863399 [info ] [MainThread]: os info: Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.41
+[0m18:13:47.952725 [info ] [MainThread]: Using profiles dir at /dbt/profiles
+[0m18:13:47.954612 [info ] [MainThread]: Using profiles.yml file at /dbt/profiles/profiles.yml
+[0m18:13:47.956442 [info ] [MainThread]: Using dbt_project.yml file at /dbt/project/dbt_project.yml
+[0m18:13:47.958378 [info ] [MainThread]: adapter type: starrocks
+[0m18:13:47.961601 [info ] [MainThread]: adapter version: 1.6.2
+[0m18:13:47.994794 [info ] [MainThread]: Configuration:
+[0m18:13:47.996708 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m18:13:47.998755 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m18:13:48.000863 [info ] [MainThread]: Required dependencies:
+[0m18:13:48.004305 [debug] [MainThread]: Executing "git --help"
+[0m18:13:48.010024 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add       Add file contents to the index\n   mv        Move or rename a file, a directory, or a symlink\n   restore   Restore working tree files\n   rm        Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect    Use binary search to find the commit that introduced a bug\n   diff      Show changes between commits, commit and working tree, etc\n   grep      Print lines matching a pattern\n   log       Show commit logs\n   show      Show various types of objects\n   status    Show the working tree status\n\ngrow, mark and tweak your common history\n   branch    List, create, or delete branches\n   commit    Record changes to the repository\n   merge     Join two or more development histories together\n   rebase    Reapply commits on top of another base tip\n   reset     Reset current HEAD to the specified state\n   switch    Switch branches\n   tag       Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch     Download objects and refs from another repository\n   pull      Fetch from and integrate with another repository or a local branch\n   push      Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m18:13:48.011724 [debug] [MainThread]: STDERR: "b''"
+[0m18:13:48.013890 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m18:13:48.015861 [info ] [MainThread]: Connection:
+[0m18:13:48.017807 [info ] [MainThread]:   host: starrocks
+[0m18:13:48.019218 [info ] [MainThread]:   port: 9030
+[0m18:13:48.020832 [info ] [MainThread]:   schema: analytics
+[0m18:13:48.022237 [info ] [MainThread]:   catalog: default_catalog
+[0m18:13:48.023765 [info ] [MainThread]:   username: root
+[0m18:13:48.026387 [info ] [MainThread]:   ssl: None
+[0m18:13:48.028108 [info ] [MainThread]: Registered adapter: starrocks=1.6.2
+[0m18:13:48.030790 [debug] [MainThread]: Acquiring new starrocks connection 'debug'
+[0m18:13:48.032616 [debug] [MainThread]: Using starrocks connection "debug"
+[0m18:13:48.034244 [debug] [MainThread]: On debug: select 1 as id
+[0m18:13:48.037092 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m18:13:48.057942 [debug] [MainThread]: starrocks adapter: Failed connection without supplying the `database`. Trying again with `database` included.
+[0m18:13:48.137194 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.0 seconds
+[0m18:13:48.139886 [debug] [MainThread]: On debug: Close
+[0m18:13:48.141374 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m18:13:48.143344 [info ] [MainThread]: [32mAll checks passed![0m
+[0m18:13:48.146758 [debug] [MainThread]: Command `dbt debug` succeeded at 18:13:48.146472 after 0.33 seconds
+[0m18:13:48.148414 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m18:13:48.149942 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea60e36d50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea5f8b2b50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7aea642e7d90>]}
+[0m18:13:48.151775 [debug] [MainThread]: Flushing usage events
+[0m18:13:52.714462 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214922b9e10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214922a5e10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214922a6090>]}
+
+
+============================== 18:13:52.721660 | 988c5347-9360-459d-930a-3bd3aa77b325 ==============================
+[0m18:13:52.721660 [info ] [MainThread]: Running with dbt=1.6.2
+[0m18:13:52.723655 [debug] [MainThread]: running dbt with arguments {'log_cache_events': 'False', 'warn_error': 'None', 'log_format': 'default', 'partial_parse': 'True', 'indirect_selection': 'eager', 'static_parser': 'True', 'no_print': 'None', 'use_colors': 'True', 'fail_fast': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'use_experimental_parser': 'False', 'send_anonymous_usage_stats': 'True', 'target_path': 'None', 'printer_width': '80', 'quiet': 'False', 'write_json': 'True', 'log_path': '/dbt/project/logs', 'invocation_command': 'dbt run', 'version_check': 'True', 'cache_selected_only': 'False', 'debug': 'False', 'profiles_dir': '/dbt/profiles'}
+[0m18:13:52.868138 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x721493812ad0>]}
+[0m18:13:52.884814 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214922a5ed0>]}
+[0m18:13:52.887065 [info ] [MainThread]: Registered adapter: starrocks=1.6.2
+[0m18:13:52.902782 [debug] [MainThread]: checksum: 8d66c46a7c5c0e5717f369273dbde9db64740684d9ba42e6442c1808d698ae9f, vars: {}, profile: , target: , version: 1.6.2
+[0m18:13:52.939376 [info ] [MainThread]: Unable to do partial parsing because profile has changed
+[0m18:13:52.941356 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72149156d050>]}
+[0m18:13:54.393688 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x721494171610>]}
+[0m18:13:54.514797 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72149150fd10>]}
+[0m18:13:54.517395 [info ] [MainThread]: Found 21 models, 9 tests, 15 sources, 0 exposures, 0 metrics, 336 macros, 0 groups, 0 semantic models
+[0m18:13:54.519712 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214921974d0>]}
+[0m18:13:54.524557 [info ] [MainThread]: 
+[0m18:13:54.527460 [debug] [MainThread]: Acquiring new starrocks connection 'master'
+[0m18:13:54.531879 [debug] [ThreadPool]: Acquiring new starrocks connection 'list_schemas'
+[0m18:13:54.546738 [debug] [ThreadPool]: Using starrocks connection "list_schemas"
+[0m18:13:54.548692 [debug] [ThreadPool]: On list_schemas: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "connection_name": "list_schemas"} */
+select distinct schema_name from information_schema.schemata
+[0m18:13:54.551584 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m18:13:54.761992 [debug] [ThreadPool]: SQL status: SUCCESS 4 in 0.0 seconds
+[0m18:13:54.767402 [debug] [ThreadPool]: On list_schemas: Close
+[0m18:13:54.771761 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_schemas, now list_None_analytics)
+[0m18:13:54.779791 [debug] [ThreadPool]: Using starrocks connection "list_None_analytics"
+[0m18:13:54.781262 [debug] [ThreadPool]: On list_None_analytics: BEGIN
+[0m18:13:54.782521 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m18:13:54.794249 [debug] [ThreadPool]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:54.796354 [debug] [ThreadPool]: Using starrocks connection "list_None_analytics"
+[0m18:13:54.798939 [debug] [ThreadPool]: On list_None_analytics: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "connection_name": "list_None_analytics"} */
+
+    select
+      null as "database",
+      tbl.table_name as name,
+      tbl.table_schema as "schema",
+      case when tbl.table_type = 'BASE TABLE' then 'table'
+           when tbl.table_type = 'VIEW' and mv.table_name is null then 'view'
+           when tbl.table_type = 'VIEW' and mv.table_name is not null then 'materialized_view'
+           when tbl.table_type = 'SYSTEM VIEW' then 'system_view'
+           else 'unknown' end as table_type
+    from information_schema.tables tbl
+    left join information_schema.materialized_views mv
+    on tbl.TABLE_SCHEMA = mv.TABLE_SCHEMA
+    and tbl.TABLE_NAME = mv.TABLE_NAME
+    where tbl.table_schema = 'analytics'
+  
+[0m18:13:55.030852 [debug] [ThreadPool]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.034716 [debug] [ThreadPool]: On list_None_analytics: ROLLBACK
+[0m18:13:55.038992 [debug] [ThreadPool]: On list_None_analytics: Close
+[0m18:13:55.042171 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x721494c9be50>]}
+[0m18:13:55.043712 [debug] [MainThread]: Using starrocks connection "master"
+[0m18:13:55.045312 [debug] [MainThread]: On master: BEGIN
+[0m18:13:55.047853 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m18:13:55.059928 [debug] [MainThread]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.061835 [debug] [MainThread]: On master: COMMIT
+[0m18:13:55.063462 [debug] [MainThread]: Using starrocks connection "master"
+[0m18:13:55.065028 [debug] [MainThread]: On master: COMMIT
+[0m18:13:55.070588 [debug] [MainThread]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.072093 [debug] [MainThread]: On master: Close
+[0m18:13:55.073954 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m18:13:55.075679 [info ] [MainThread]: 
+[0m18:13:55.092258 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_customs_declarations
+[0m18:13:55.094254 [info ] [Thread-1 (]: 1 of 21 START sql view model analytics.stg_customs_declarations ................ [RUN]
+[0m18:13:55.096481 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_None_analytics, now model.my_dbt_project.stg_customs_declarations)
+[0m18:13:55.097884 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_customs_declarations
+[0m18:13:55.107680 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_customs_declarations"
+[0m18:13:55.124987 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_customs_declarations (compile): 18:13:55.099538 => 18:13:55.124503
+[0m18:13:55.126575 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_customs_declarations
+[0m18:13:55.171159 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_customs_declarations"
+[0m18:13:55.191019 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_customs_declarations"
+[0m18:13:55.193015 [debug] [Thread-1 (]: On model.my_dbt_project.stg_customs_declarations: BEGIN
+[0m18:13:55.194948 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:55.206996 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.209891 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_customs_declarations"
+[0m18:13:55.211474 [debug] [Thread-1 (]: On model.my_dbt_project.stg_customs_declarations: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_customs_declarations"} */
+
+  create view `analytics`.`stg_customs_declarations__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_customs_declarations`;
+[0m18:13:55.227726 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_customs_declarations'.
+[0m18:13:55.236732 [debug] [Thread-1 (]: On model.my_dbt_project.stg_customs_declarations: ROLLBACK
+[0m18:13:55.240703 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_customs_declarations (execute): 18:13:55.127709 => 18:13:55.240021
+[0m18:13:55.242671 [debug] [Thread-1 (]: On model.my_dbt_project.stg_customs_declarations: Close
+[0m18:13:55.253099 [debug] [Thread-1 (]: Database Error in model stg_customs_declarations (models/staging/stg_customs_declarations.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_customs_declarations'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_customs_declarations.sql
+[0m18:13:55.255950 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72149154f290>]}
+[0m18:13:55.258344 [error] [Thread-1 (]: 1 of 21 ERROR creating sql view model analytics.stg_customs_declarations ....... [[31mERROR[0m in 0.16s]
+[0m18:13:55.260708 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_customs_declarations
+[0m18:13:55.262658 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_deliveries
+[0m18:13:55.265482 [info ] [Thread-1 (]: 2 of 21 START sql view model analytics.stg_deliveries .......................... [RUN]
+[0m18:13:55.267646 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_customs_declarations, now model.my_dbt_project.stg_deliveries)
+[0m18:13:55.269472 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_deliveries
+[0m18:13:55.274307 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_deliveries"
+[0m18:13:55.292886 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_deliveries (compile): 18:13:55.270766 => 18:13:55.292012
+[0m18:13:55.296634 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_deliveries
+[0m18:13:55.303676 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_deliveries"
+[0m18:13:55.317027 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_deliveries"
+[0m18:13:55.318567 [debug] [Thread-1 (]: On model.my_dbt_project.stg_deliveries: BEGIN
+[0m18:13:55.319832 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:55.330733 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.332369 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_deliveries"
+[0m18:13:55.334158 [debug] [Thread-1 (]: On model.my_dbt_project.stg_deliveries: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_deliveries"} */
+
+  create view `analytics`.`stg_deliveries__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_deliveries`;
+[0m18:13:55.338779 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_deliveries'.
+[0m18:13:55.340556 [debug] [Thread-1 (]: On model.my_dbt_project.stg_deliveries: ROLLBACK
+[0m18:13:55.343713 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_deliveries (execute): 18:13:55.298054 => 18:13:55.343203
+[0m18:13:55.345180 [debug] [Thread-1 (]: On model.my_dbt_project.stg_deliveries: Close
+[0m18:13:55.349591 [debug] [Thread-1 (]: Database Error in model stg_deliveries (models/staging/stg_deliveries.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_deliveries'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_deliveries.sql
+[0m18:13:55.351617 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72149153c910>]}
+[0m18:13:55.353185 [error] [Thread-1 (]: 2 of 21 ERROR creating sql view model analytics.stg_deliveries ................. [[31mERROR[0m in 0.08s]
+[0m18:13:55.355404 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_deliveries
+[0m18:13:55.357209 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_inventory_movements
+[0m18:13:55.359097 [info ] [Thread-1 (]: 3 of 21 START sql view model analytics.stg_inventory_movements ................. [RUN]
+[0m18:13:55.361817 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_deliveries, now model.my_dbt_project.stg_inventory_movements)
+[0m18:13:55.363431 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_inventory_movements
+[0m18:13:55.368756 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_inventory_movements"
+[0m18:13:55.383267 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_inventory_movements (compile): 18:13:55.364690 => 18:13:55.382812
+[0m18:13:55.384634 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_inventory_movements
+[0m18:13:55.390086 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_inventory_movements"
+[0m18:13:55.403505 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_inventory_movements"
+[0m18:13:55.405136 [debug] [Thread-1 (]: On model.my_dbt_project.stg_inventory_movements: BEGIN
+[0m18:13:55.406499 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:55.417334 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.418895 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_inventory_movements"
+[0m18:13:55.420372 [debug] [Thread-1 (]: On model.my_dbt_project.stg_inventory_movements: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_inventory_movements"} */
+
+  create view `analytics`.`stg_inventory_movements__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_inventory_movements`;
+[0m18:13:55.424649 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_inventory_movements'.
+[0m18:13:55.426429 [debug] [Thread-1 (]: On model.my_dbt_project.stg_inventory_movements: ROLLBACK
+[0m18:13:55.429360 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_inventory_movements (execute): 18:13:55.385817 => 18:13:55.428742
+[0m18:13:55.430521 [debug] [Thread-1 (]: On model.my_dbt_project.stg_inventory_movements: Close
+[0m18:13:55.434640 [debug] [Thread-1 (]: Database Error in model stg_inventory_movements (models/staging/stg_inventory_movements.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_inventory_movements'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_inventory_movements.sql
+[0m18:13:55.436604 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72149205da50>]}
+[0m18:13:55.438225 [error] [Thread-1 (]: 3 of 21 ERROR creating sql view model analytics.stg_inventory_movements ........ [[31mERROR[0m in 0.08s]
+[0m18:13:55.440092 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_inventory_movements
+[0m18:13:55.441984 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_invoices
+[0m18:13:55.444058 [info ] [Thread-1 (]: 4 of 21 START sql view model analytics.stg_invoices ............................ [RUN]
+[0m18:13:55.446962 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_inventory_movements, now model.my_dbt_project.stg_invoices)
+[0m18:13:55.448658 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_invoices
+[0m18:13:55.453692 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_invoices"
+[0m18:13:55.467835 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_invoices (compile): 18:13:55.449895 => 18:13:55.467316
+[0m18:13:55.469646 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_invoices
+[0m18:13:55.474300 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_invoices"
+[0m18:13:55.487036 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_invoices"
+[0m18:13:55.489162 [debug] [Thread-1 (]: On model.my_dbt_project.stg_invoices: BEGIN
+[0m18:13:55.490715 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:55.502265 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.503952 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_invoices"
+[0m18:13:55.505358 [debug] [Thread-1 (]: On model.my_dbt_project.stg_invoices: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_invoices"} */
+
+  create view `analytics`.`stg_invoices__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_invoices`;
+[0m18:13:55.509733 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_invoices'.
+[0m18:13:55.511664 [debug] [Thread-1 (]: On model.my_dbt_project.stg_invoices: ROLLBACK
+[0m18:13:55.515104 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_invoices (execute): 18:13:55.470844 => 18:13:55.514372
+[0m18:13:55.516364 [debug] [Thread-1 (]: On model.my_dbt_project.stg_invoices: Close
+[0m18:13:55.519652 [debug] [Thread-1 (]: Database Error in model stg_invoices (models/staging/stg_invoices.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_invoices'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_invoices.sql
+[0m18:13:55.521874 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214920765d0>]}
+[0m18:13:55.523411 [error] [Thread-1 (]: 4 of 21 ERROR creating sql view model analytics.stg_invoices ................... [[31mERROR[0m in 0.08s]
+[0m18:13:55.525151 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_invoices
+[0m18:13:55.526930 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_payments
+[0m18:13:55.528716 [info ] [Thread-1 (]: 5 of 21 START sql view model analytics.stg_payments ............................ [RUN]
+[0m18:13:55.531058 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_invoices, now model.my_dbt_project.stg_payments)
+[0m18:13:55.533633 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_payments
+[0m18:13:55.538202 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_payments"
+[0m18:13:55.551435 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_payments (compile): 18:13:55.535033 => 18:13:55.550957
+[0m18:13:55.553050 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_payments
+[0m18:13:55.557998 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_payments"
+[0m18:13:55.571557 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_payments"
+[0m18:13:55.573204 [debug] [Thread-1 (]: On model.my_dbt_project.stg_payments: BEGIN
+[0m18:13:55.575191 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:55.587885 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.589677 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_payments"
+[0m18:13:55.591200 [debug] [Thread-1 (]: On model.my_dbt_project.stg_payments: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_payments"} */
+
+  create view `analytics`.`stg_payments__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_payments`;
+[0m18:13:55.595152 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_payments'.
+[0m18:13:55.597326 [debug] [Thread-1 (]: On model.my_dbt_project.stg_payments: ROLLBACK
+[0m18:13:55.600619 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_payments (execute): 18:13:55.554709 => 18:13:55.599985
+[0m18:13:55.601916 [debug] [Thread-1 (]: On model.my_dbt_project.stg_payments: Close
+[0m18:13:55.605472 [debug] [Thread-1 (]: Database Error in model stg_payments (models/staging/stg_payments.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_payments'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_payments.sql
+[0m18:13:55.607673 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214915df4d0>]}
+[0m18:13:55.609442 [error] [Thread-1 (]: 5 of 21 ERROR creating sql view model analytics.stg_payments ................... [[31mERROR[0m in 0.08s]
+[0m18:13:55.611287 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_payments
+[0m18:13:55.612768 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_quality_checks
+[0m18:13:55.614373 [info ] [Thread-1 (]: 6 of 21 START sql view model analytics.stg_quality_checks ...................... [RUN]
+[0m18:13:55.616641 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_payments, now model.my_dbt_project.stg_quality_checks)
+[0m18:13:55.619268 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_quality_checks
+[0m18:13:55.623943 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_quality_checks"
+[0m18:13:55.637494 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_quality_checks (compile): 18:13:55.620798 => 18:13:55.637067
+[0m18:13:55.639774 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_quality_checks
+[0m18:13:55.644990 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_quality_checks"
+[0m18:13:55.657065 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_quality_checks"
+[0m18:13:55.658428 [debug] [Thread-1 (]: On model.my_dbt_project.stg_quality_checks: BEGIN
+[0m18:13:55.659824 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:55.670436 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.672772 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_quality_checks"
+[0m18:13:55.674079 [debug] [Thread-1 (]: On model.my_dbt_project.stg_quality_checks: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_quality_checks"} */
+
+  create view `analytics`.`stg_quality_checks__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_quality_checks`;
+[0m18:13:55.678907 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_quality_checks'.
+[0m18:13:55.680446 [debug] [Thread-1 (]: On model.my_dbt_project.stg_quality_checks: ROLLBACK
+[0m18:13:55.683977 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_quality_checks (execute): 18:13:55.641320 => 18:13:55.683467
+[0m18:13:55.685737 [debug] [Thread-1 (]: On model.my_dbt_project.stg_quality_checks: Close
+[0m18:13:55.689305 [debug] [Thread-1 (]: Database Error in model stg_quality_checks (models/staging/stg_quality_checks.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_quality_checks'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_quality_checks.sql
+[0m18:13:55.690673 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214915a0450>]}
+[0m18:13:55.692000 [error] [Thread-1 (]: 6 of 21 ERROR creating sql view model analytics.stg_quality_checks ............. [[31mERROR[0m in 0.07s]
+[0m18:13:55.694372 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_quality_checks
+[0m18:13:55.696222 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_returns
+[0m18:13:55.697751 [info ] [Thread-1 (]: 7 of 21 START sql view model analytics.stg_returns ............................. [RUN]
+[0m18:13:55.699796 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_quality_checks, now model.my_dbt_project.stg_returns)
+[0m18:13:55.701393 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_returns
+[0m18:13:55.706598 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_returns"
+[0m18:13:55.719816 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_returns (compile): 18:13:55.702633 => 18:13:55.719393
+[0m18:13:55.721220 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_returns
+[0m18:13:55.727468 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_returns"
+[0m18:13:55.740823 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_returns"
+[0m18:13:55.742356 [debug] [Thread-1 (]: On model.my_dbt_project.stg_returns: BEGIN
+[0m18:13:55.743472 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:55.753713 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.755189 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_returns"
+[0m18:13:55.756935 [debug] [Thread-1 (]: On model.my_dbt_project.stg_returns: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_returns"} */
+
+  create view `analytics`.`stg_returns__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_returns`;
+[0m18:13:55.761319 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_returns'.
+[0m18:13:55.763038 [debug] [Thread-1 (]: On model.my_dbt_project.stg_returns: ROLLBACK
+[0m18:13:55.765944 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_returns (execute): 18:13:55.722451 => 18:13:55.765369
+[0m18:13:55.767187 [debug] [Thread-1 (]: On model.my_dbt_project.stg_returns: Close
+[0m18:13:55.771161 [debug] [Thread-1 (]: Database Error in model stg_returns (models/staging/stg_returns.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_returns'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_returns.sql
+[0m18:13:55.772737 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214915df4d0>]}
+[0m18:13:55.774330 [error] [Thread-1 (]: 7 of 21 ERROR creating sql view model analytics.stg_returns .................... [[31mERROR[0m in 0.07s]
+[0m18:13:55.775989 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_returns
+[0m18:13:55.777527 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_shipments
+[0m18:13:55.779340 [info ] [Thread-1 (]: 8 of 21 START sql view model analytics.stg_shipments ........................... [RUN]
+[0m18:13:55.781454 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_returns, now model.my_dbt_project.stg_shipments)
+[0m18:13:55.782857 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_shipments
+[0m18:13:55.787003 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_shipments"
+[0m18:13:55.801741 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_shipments (compile): 18:13:55.784097 => 18:13:55.801130
+[0m18:13:55.803242 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_shipments
+[0m18:13:55.807729 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_shipments"
+[0m18:13:55.820347 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_shipments"
+[0m18:13:55.822722 [debug] [Thread-1 (]: On model.my_dbt_project.stg_shipments: BEGIN
+[0m18:13:55.824338 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:55.834578 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.836074 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_shipments"
+[0m18:13:55.837683 [debug] [Thread-1 (]: On model.my_dbt_project.stg_shipments: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_shipments"} */
+
+  create view `analytics`.`stg_shipments__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_shipments`;
+[0m18:13:55.841782 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_shipments'.
+[0m18:13:55.843314 [debug] [Thread-1 (]: On model.my_dbt_project.stg_shipments: ROLLBACK
+[0m18:13:55.848083 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_shipments (execute): 18:13:55.804337 => 18:13:55.846267
+[0m18:13:55.849508 [debug] [Thread-1 (]: On model.my_dbt_project.stg_shipments: Close
+[0m18:13:55.853230 [debug] [Thread-1 (]: Database Error in model stg_shipments (models/staging/stg_shipments.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_shipments'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_shipments.sql
+[0m18:13:55.855918 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214915519d0>]}
+[0m18:13:55.857801 [error] [Thread-1 (]: 8 of 21 ERROR creating sql view model analytics.stg_shipments .................. [[31mERROR[0m in 0.07s]
+[0m18:13:55.859497 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_shipments
+[0m18:13:55.861002 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_supplier_ratings
+[0m18:13:55.862374 [info ] [Thread-1 (]: 9 of 21 START sql view model analytics.stg_supplier_ratings .................... [RUN]
+[0m18:13:55.864850 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_shipments, now model.my_dbt_project.stg_supplier_ratings)
+[0m18:13:55.867322 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_supplier_ratings
+[0m18:13:55.872877 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_supplier_ratings"
+[0m18:13:55.887222 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_supplier_ratings (compile): 18:13:55.868881 => 18:13:55.886732
+[0m18:13:55.888671 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_supplier_ratings
+[0m18:13:55.893455 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_supplier_ratings"
+[0m18:13:55.905650 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_supplier_ratings"
+[0m18:13:55.907348 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supplier_ratings: BEGIN
+[0m18:13:55.909077 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:55.918704 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:55.920673 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_supplier_ratings"
+[0m18:13:55.921903 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supplier_ratings: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_supplier_ratings"} */
+
+  create view `analytics`.`stg_supplier_ratings__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_supplier_ratings`;
+[0m18:13:55.925923 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supplier_ratings'.
+[0m18:13:55.927286 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supplier_ratings: ROLLBACK
+[0m18:13:55.931464 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_supplier_ratings (execute): 18:13:55.889819 => 18:13:55.930582
+[0m18:13:55.933072 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supplier_ratings: Close
+[0m18:13:55.936706 [debug] [Thread-1 (]: Database Error in model stg_supplier_ratings (models/staging/stg_supplier_ratings.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supplier_ratings'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_supplier_ratings.sql
+[0m18:13:55.938143 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72149210a710>]}
+[0m18:13:55.940255 [error] [Thread-1 (]: 9 of 21 ERROR creating sql view model analytics.stg_supplier_ratings ........... [[31mERROR[0m in 0.07s]
+[0m18:13:55.942886 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_supplier_ratings
+[0m18:13:55.944553 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_suppliers
+[0m18:13:55.945990 [info ] [Thread-1 (]: 10 of 21 START sql view model analytics.stg_suppliers .......................... [RUN]
+[0m18:13:55.947833 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_supplier_ratings, now model.my_dbt_project.stg_suppliers)
+[0m18:13:55.949278 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_suppliers
+[0m18:13:55.954397 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_suppliers"
+[0m18:13:55.967923 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_suppliers (compile): 18:13:55.951101 => 18:13:55.967475
+[0m18:13:55.969324 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_suppliers
+[0m18:13:55.974871 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_suppliers"
+[0m18:13:55.987579 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_suppliers"
+[0m18:13:55.989126 [debug] [Thread-1 (]: On model.my_dbt_project.stg_suppliers: BEGIN
+[0m18:13:55.990385 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:56.000428 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:56.002131 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_suppliers"
+[0m18:13:56.003587 [debug] [Thread-1 (]: On model.my_dbt_project.stg_suppliers: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_suppliers"} */
+
+  create view `analytics`.`stg_suppliers__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_suppliers`;
+[0m18:13:56.008097 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_suppliers'.
+[0m18:13:56.009899 [debug] [Thread-1 (]: On model.my_dbt_project.stg_suppliers: ROLLBACK
+[0m18:13:56.013013 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_suppliers (execute): 18:13:55.970457 => 18:13:56.012400
+[0m18:13:56.014612 [debug] [Thread-1 (]: On model.my_dbt_project.stg_suppliers: Close
+[0m18:13:56.018427 [debug] [Thread-1 (]: Database Error in model stg_suppliers (models/staging/stg_suppliers.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_suppliers'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_suppliers.sql
+[0m18:13:56.019876 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214920a4f50>]}
+[0m18:13:56.021613 [error] [Thread-1 (]: 10 of 21 ERROR creating sql view model analytics.stg_suppliers ................. [[31mERROR[0m in 0.07s]
+[0m18:13:56.023560 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_suppliers
+[0m18:13:56.025476 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_supply_contracts
+[0m18:13:56.027340 [info ] [Thread-1 (]: 11 of 21 START sql view model analytics.stg_supply_contracts ................... [RUN]
+[0m18:13:56.029249 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_suppliers, now model.my_dbt_project.stg_supply_contracts)
+[0m18:13:56.030656 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_supply_contracts
+[0m18:13:56.034708 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_supply_contracts"
+[0m18:13:56.048357 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_supply_contracts (compile): 18:13:56.031782 => 18:13:56.047901
+[0m18:13:56.049850 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_supply_contracts
+[0m18:13:56.054400 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_supply_contracts"
+[0m18:13:56.066925 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_supply_contracts"
+[0m18:13:56.068662 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_contracts: BEGIN
+[0m18:13:56.070400 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:56.080373 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:56.082320 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_supply_contracts"
+[0m18:13:56.083599 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_contracts: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_supply_contracts"} */
+
+  create view `analytics`.`stg_supply_contracts__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_supply_contracts`;
+[0m18:13:56.087583 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supply_contracts'.
+[0m18:13:56.089110 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_contracts: ROLLBACK
+[0m18:13:56.092983 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_supply_contracts (execute): 18:13:56.051017 => 18:13:56.092350
+[0m18:13:56.094394 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_contracts: Close
+[0m18:13:56.097765 [debug] [Thread-1 (]: Database Error in model stg_supply_contracts (models/staging/stg_supply_contracts.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supply_contracts'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_supply_contracts.sql
+[0m18:13:56.099186 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214920a4f50>]}
+[0m18:13:56.101087 [error] [Thread-1 (]: 11 of 21 ERROR creating sql view model analytics.stg_supply_contracts .......... [[31mERROR[0m in 0.07s]
+[0m18:13:56.103552 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_supply_contracts
+[0m18:13:56.105085 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_supply_items
+[0m18:13:56.106618 [info ] [Thread-1 (]: 12 of 21 START sql view model analytics.stg_supply_items ....................... [RUN]
+[0m18:13:56.108570 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_supply_contracts, now model.my_dbt_project.stg_supply_items)
+[0m18:13:56.110389 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_supply_items
+[0m18:13:56.115865 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_supply_items"
+[0m18:13:56.129170 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_supply_items (compile): 18:13:56.112865 => 18:13:56.128673
+[0m18:13:56.130817 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_supply_items
+[0m18:13:56.136349 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_supply_items"
+[0m18:13:56.148399 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_supply_items"
+[0m18:13:56.149884 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_items: BEGIN
+[0m18:13:56.151164 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:56.161411 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:56.162987 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_supply_items"
+[0m18:13:56.164559 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_items: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_supply_items"} */
+
+  create view `analytics`.`stg_supply_items__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_supply_items`;
+[0m18:13:56.169852 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supply_items'.
+[0m18:13:56.171156 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_items: ROLLBACK
+[0m18:13:56.173792 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_supply_items (execute): 18:13:56.132056 => 18:13:56.173186
+[0m18:13:56.174987 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_items: Close
+[0m18:13:56.179710 [debug] [Thread-1 (]: Database Error in model stg_supply_items (models/staging/stg_supply_items.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supply_items'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_supply_items.sql
+[0m18:13:56.181798 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214920e2310>]}
+[0m18:13:56.183486 [error] [Thread-1 (]: 12 of 21 ERROR creating sql view model analytics.stg_supply_items .............. [[31mERROR[0m in 0.07s]
+[0m18:13:56.185481 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_supply_items
+[0m18:13:56.187265 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_supply_orders
+[0m18:13:56.189789 [info ] [Thread-1 (]: 13 of 21 START sql view model analytics.stg_supply_orders ...................... [RUN]
+[0m18:13:56.192496 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_supply_items, now model.my_dbt_project.stg_supply_orders)
+[0m18:13:56.194201 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_supply_orders
+[0m18:13:56.199376 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_supply_orders"
+[0m18:13:56.213617 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_supply_orders (compile): 18:13:56.195669 => 18:13:56.213179
+[0m18:13:56.215143 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_supply_orders
+[0m18:13:56.220511 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_supply_orders"
+[0m18:13:56.233537 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_supply_orders"
+[0m18:13:56.235161 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_orders: BEGIN
+[0m18:13:56.236777 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:56.258361 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:56.260065 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_supply_orders"
+[0m18:13:56.261556 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_orders: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_supply_orders"} */
+
+  create view `analytics`.`stg_supply_orders__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_supply_orders`;
+[0m18:13:56.266397 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supply_orders'.
+[0m18:13:56.268092 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_orders: ROLLBACK
+[0m18:13:56.270892 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_supply_orders (execute): 18:13:56.216290 => 18:13:56.270574
+[0m18:13:56.272355 [debug] [Thread-1 (]: On model.my_dbt_project.stg_supply_orders: Close
+[0m18:13:56.276643 [debug] [Thread-1 (]: Database Error in model stg_supply_orders (models/staging/stg_supply_orders.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supply_orders'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_supply_orders.sql
+[0m18:13:56.278155 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214920aed50>]}
+[0m18:13:56.280015 [error] [Thread-1 (]: 13 of 21 ERROR creating sql view model analytics.stg_supply_orders ............. [[31mERROR[0m in 0.09s]
+[0m18:13:56.282161 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_supply_orders
+[0m18:13:56.284639 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_transport_routes
+[0m18:13:56.287083 [info ] [Thread-1 (]: 14 of 21 START sql view model analytics.stg_transport_routes ................... [RUN]
+[0m18:13:56.293035 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_supply_orders, now model.my_dbt_project.stg_transport_routes)
+[0m18:13:56.296572 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_transport_routes
+[0m18:13:56.301265 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_transport_routes"
+[0m18:13:56.314469 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_transport_routes (compile): 18:13:56.297972 => 18:13:56.314028
+[0m18:13:56.316815 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_transport_routes
+[0m18:13:56.322485 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_transport_routes"
+[0m18:13:56.335900 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_transport_routes"
+[0m18:13:56.337695 [debug] [Thread-1 (]: On model.my_dbt_project.stg_transport_routes: BEGIN
+[0m18:13:56.339705 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:56.349732 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:56.351534 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_transport_routes"
+[0m18:13:56.352942 [debug] [Thread-1 (]: On model.my_dbt_project.stg_transport_routes: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_transport_routes"} */
+
+  create view `analytics`.`stg_transport_routes__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_transport_routes`;
+[0m18:13:56.358589 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_transport_routes'.
+[0m18:13:56.360729 [debug] [Thread-1 (]: On model.my_dbt_project.stg_transport_routes: ROLLBACK
+[0m18:13:56.363582 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_transport_routes (execute): 18:13:56.318337 => 18:13:56.363276
+[0m18:13:56.364967 [debug] [Thread-1 (]: On model.my_dbt_project.stg_transport_routes: Close
+[0m18:13:56.368313 [debug] [Thread-1 (]: Database Error in model stg_transport_routes (models/staging/stg_transport_routes.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_transport_routes'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_transport_routes.sql
+[0m18:13:56.370450 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214901004d0>]}
+[0m18:13:56.372019 [error] [Thread-1 (]: 14 of 21 ERROR creating sql view model analytics.stg_transport_routes .......... [[31mERROR[0m in 0.08s]
+[0m18:13:56.373898 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_transport_routes
+[0m18:13:56.375388 [debug] [Thread-1 (]: Began running node model.my_dbt_project.stg_warehouses
+[0m18:13:56.376969 [info ] [Thread-1 (]: 15 of 21 START sql view model analytics.stg_warehouses ......................... [RUN]
+[0m18:13:56.378814 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.my_dbt_project.stg_transport_routes, now model.my_dbt_project.stg_warehouses)
+[0m18:13:56.381560 [debug] [Thread-1 (]: Began compiling node model.my_dbt_project.stg_warehouses
+[0m18:13:56.386379 [debug] [Thread-1 (]: Writing injected SQL for node "model.my_dbt_project.stg_warehouses"
+[0m18:13:56.398859 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_warehouses (compile): 18:13:56.383260 => 18:13:56.398436
+[0m18:13:56.400490 [debug] [Thread-1 (]: Began executing node model.my_dbt_project.stg_warehouses
+[0m18:13:56.406274 [debug] [Thread-1 (]: Writing runtime sql for node "model.my_dbt_project.stg_warehouses"
+[0m18:13:56.419001 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_warehouses"
+[0m18:13:56.420464 [debug] [Thread-1 (]: On model.my_dbt_project.stg_warehouses: BEGIN
+[0m18:13:56.421963 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:13:56.431849 [debug] [Thread-1 (]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:56.433799 [debug] [Thread-1 (]: Using starrocks connection "model.my_dbt_project.stg_warehouses"
+[0m18:13:56.435427 [debug] [Thread-1 (]: On model.my_dbt_project.stg_warehouses: /* {"app": "dbt", "dbt_version": "1.6.2", "profile_name": "default", "target_name": "dev", "node_id": "model.my_dbt_project.stg_warehouses"} */
+
+  create view `analytics`.`stg_warehouses__dbt_tmp` as 
+
+SELECT *
+FROM `analytics`.`raw_warehouses`;
+[0m18:13:56.439670 [debug] [Thread-1 (]: starrocks adapter: StarRocks error: 5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_warehouses'.
+[0m18:13:56.441384 [debug] [Thread-1 (]: On model.my_dbt_project.stg_warehouses: ROLLBACK
+[0m18:13:56.444260 [debug] [Thread-1 (]: Timing info for model.my_dbt_project.stg_warehouses (execute): 18:13:56.402607 => 18:13:56.443756
+[0m18:13:56.446407 [debug] [Thread-1 (]: On model.my_dbt_project.stg_warehouses: Close
+[0m18:13:56.449865 [debug] [Thread-1 (]: Database Error in model stg_warehouses (models/staging/stg_warehouses.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_warehouses'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_warehouses.sql
+[0m18:13:56.451201 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '988c5347-9360-459d-930a-3bd3aa77b325', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7214915a2e10>]}
+[0m18:13:56.452658 [error] [Thread-1 (]: 15 of 21 ERROR creating sql view model analytics.stg_warehouses ................ [[31mERROR[0m in 0.07s]
+[0m18:13:56.454375 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.stg_warehouses
+[0m18:13:56.456395 [debug] [Thread-1 (]: Began running node model.my_dbt_project.mart_payment_summary
+[0m18:13:56.458649 [info ] [Thread-1 (]: 16 of 21 SKIP relation analytics.mart_payment_summary .......................... [[33mSKIP[0m]
+[0m18:13:56.460602 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.mart_payment_summary
+[0m18:13:56.462175 [debug] [Thread-1 (]: Began running node model.my_dbt_project.mart_supply_by_category
+[0m18:13:56.463515 [info ] [Thread-1 (]: 17 of 21 SKIP relation analytics.mart_supply_by_category ....................... [[33mSKIP[0m]
+[0m18:13:56.465208 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.mart_supply_by_category
+[0m18:13:56.467309 [debug] [Thread-1 (]: Began running node model.my_dbt_project.mart_delivery_kpi
+[0m18:13:56.468864 [info ] [Thread-1 (]: 18 of 21 SKIP relation analytics.mart_delivery_kpi ............................. [[33mSKIP[0m]
+[0m18:13:56.470448 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.mart_delivery_kpi
+[0m18:13:56.471968 [debug] [Thread-1 (]: Began running node model.my_dbt_project.mart_supplier_performance
+[0m18:13:56.473405 [info ] [Thread-1 (]: 19 of 21 SKIP relation analytics.mart_supplier_performance ..................... [[33mSKIP[0m]
+[0m18:13:56.475134 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.mart_supplier_performance
+[0m18:13:56.478143 [debug] [Thread-1 (]: Began running node model.my_dbt_project.mart_transport_analysis
+[0m18:13:56.479775 [info ] [Thread-1 (]: 20 of 21 SKIP relation analytics.mart_transport_analysis ....................... [[33mSKIP[0m]
+[0m18:13:56.481630 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.mart_transport_analysis
+[0m18:13:56.483482 [debug] [Thread-1 (]: Began running node model.my_dbt_project.mart_warehouse_activity
+[0m18:13:56.484872 [info ] [Thread-1 (]: 21 of 21 SKIP relation analytics.mart_warehouse_activity ....................... [[33mSKIP[0m]
+[0m18:13:56.486538 [debug] [Thread-1 (]: Finished running node model.my_dbt_project.mart_warehouse_activity
+[0m18:13:56.491639 [debug] [MainThread]: Using starrocks connection "master"
+[0m18:13:56.492999 [debug] [MainThread]: On master: BEGIN
+[0m18:13:56.494354 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m18:13:56.504429 [debug] [MainThread]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:56.506278 [debug] [MainThread]: On master: COMMIT
+[0m18:13:56.508010 [debug] [MainThread]: Using starrocks connection "master"
+[0m18:13:56.510121 [debug] [MainThread]: On master: COMMIT
+[0m18:13:56.513738 [debug] [MainThread]: SQL status: SUCCESS 0 in 0.0 seconds
+[0m18:13:56.515122 [debug] [MainThread]: On master: Close
+[0m18:13:56.516862 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m18:13:56.518271 [debug] [MainThread]: Connection 'model.my_dbt_project.stg_warehouses' was properly closed.
+[0m18:13:56.520561 [info ] [MainThread]: 
+[0m18:13:56.522354 [info ] [MainThread]: Finished running 15 view models, 6 table models in 0 hours 0 minutes and 1.99 seconds (1.99s).
+[0m18:13:56.526035 [debug] [MainThread]: Command end result
+[0m18:13:56.559479 [info ] [MainThread]: 
+[0m18:13:56.561723 [info ] [MainThread]: [31mCompleted with 15 errors and 0 warnings:[0m
+[0m18:13:56.563727 [info ] [MainThread]: 
+[0m18:13:56.565710 [error] [MainThread]:   Database Error in model stg_customs_declarations (models/staging/stg_customs_declarations.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_customs_declarations'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_customs_declarations.sql
+[0m18:13:56.567272 [info ] [MainThread]: 
+[0m18:13:56.569134 [error] [MainThread]:   Database Error in model stg_deliveries (models/staging/stg_deliveries.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_deliveries'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_deliveries.sql
+[0m18:13:56.571077 [info ] [MainThread]: 
+[0m18:13:56.574189 [error] [MainThread]:   Database Error in model stg_inventory_movements (models/staging/stg_inventory_movements.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_inventory_movements'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_inventory_movements.sql
+[0m18:13:56.576425 [info ] [MainThread]: 
+[0m18:13:56.578166 [error] [MainThread]:   Database Error in model stg_invoices (models/staging/stg_invoices.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_invoices'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_invoices.sql
+[0m18:13:56.580009 [info ] [MainThread]: 
+[0m18:13:56.581779 [error] [MainThread]:   Database Error in model stg_payments (models/staging/stg_payments.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_payments'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_payments.sql
+[0m18:13:56.583464 [info ] [MainThread]: 
+[0m18:13:56.586076 [error] [MainThread]:   Database Error in model stg_quality_checks (models/staging/stg_quality_checks.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_quality_checks'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_quality_checks.sql
+[0m18:13:56.588106 [info ] [MainThread]: 
+[0m18:13:56.589706 [error] [MainThread]:   Database Error in model stg_returns (models/staging/stg_returns.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_returns'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_returns.sql
+[0m18:13:56.591377 [info ] [MainThread]: 
+[0m18:13:56.593310 [error] [MainThread]:   Database Error in model stg_shipments (models/staging/stg_shipments.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_shipments'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_shipments.sql
+[0m18:13:56.595472 [info ] [MainThread]: 
+[0m18:13:56.597397 [error] [MainThread]:   Database Error in model stg_supplier_ratings (models/staging/stg_supplier_ratings.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supplier_ratings'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_supplier_ratings.sql
+[0m18:13:56.599370 [info ] [MainThread]: 
+[0m18:13:56.600859 [error] [MainThread]:   Database Error in model stg_suppliers (models/staging/stg_suppliers.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_suppliers'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_suppliers.sql
+[0m18:13:56.602881 [info ] [MainThread]: 
+[0m18:13:56.604792 [error] [MainThread]:   Database Error in model stg_supply_contracts (models/staging/stg_supply_contracts.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supply_contracts'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_supply_contracts.sql
+[0m18:13:56.608366 [info ] [MainThread]: 
+[0m18:13:56.610308 [error] [MainThread]:   Database Error in model stg_supply_items (models/staging/stg_supply_items.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supply_items'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_supply_items.sql
+[0m18:13:56.611961 [info ] [MainThread]: 
+[0m18:13:56.613738 [error] [MainThread]:   Database Error in model stg_supply_orders (models/staging/stg_supply_orders.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_supply_orders'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_supply_orders.sql
+[0m18:13:56.616559 [info ] [MainThread]: 
+[0m18:13:56.618592 [error] [MainThread]:   Database Error in model stg_transport_routes (models/staging/stg_transport_routes.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_transport_routes'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_transport_routes.sql
+[0m18:13:56.620392 [info ] [MainThread]: 
+[0m18:13:56.622162 [error] [MainThread]:   Database Error in model stg_warehouses (models/staging/stg_warehouses.sql)
+  5502 (42602): Getting analyzing error. Detail message: Unknown table 'analytics.raw_warehouses'.
+  compiled Code at target/run/my_dbt_project/models/staging/stg_warehouses.sql
+[0m18:13:56.624021 [info ] [MainThread]: 
+[0m18:13:56.627063 [info ] [MainThread]: Done. PASS=0 WARN=0 ERROR=15 SKIP=6 TOTAL=21
+[0m18:13:56.630063 [debug] [MainThread]: Command `dbt run` failed at 18:13:56.629757 after 3.94 seconds
+[0m18:13:56.631339 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x721492d4c210>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x721496cf2910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72149226e810>]}
+[0m18:13:56.632783 [debug] [MainThread]: Flushing usage events
+[0m18:14:02.531010 [debug] [MainThread]: Error sending anonymous usage statistics. Disabling tracking for this execution. If you wish to permanently disable tracking, see: https://docs.getdbt.com/reference/global-configs#send-anonymous-usage-stats.

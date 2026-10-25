@@ -1,8 +1,9 @@
 """
-Загружает CSV из MinIO (S3) в StarRocks (allin1-образ).
+Загружает CSV из MinIO (S3) в StarRocks.
 
-Загружает каждый CSV-файл отдельно, без wildcard-символов,
-чтобы обойти баг StarRocks 3.4.10 с разрешением S3-путей.
+- Читает /dbt/_schema.json — типы колонок, созданные генератором.
+- Создаёт таблицы raw_* в StarRocks.
+- Загружает CSV через FILES() по одному файлу (обход wildcard-бага).
 """
 
 import json
@@ -66,7 +67,6 @@ def get_sr_conn():
 
 
 def list_csv_keys(s3, prefix):
-    """Возвращает список CSV-ключей (без wildcard)."""
     keys = []
     paginator = s3.get_paginator("list_objects_v2")
     for page in paginator.paginate(Bucket=S3_BUCKET, Prefix=prefix):
@@ -77,7 +77,7 @@ def list_csv_keys(s3, prefix):
 
 
 def wait_for_starrocks(timeout=240):
-    print(f"Ожидание готовности StarRocks ({SR_HOST}:{SR_PORT}), макс {timeout}s...")
+    print(f"Ожидание StarRocks ({SR_HOST}:{SR_PORT}), макс {timeout}s...")
     start = time.time()
     attempt = 0
 
@@ -94,16 +94,16 @@ def wait_for_starrocks(timeout=240):
                 if rows and alive_idx is not None:
                     alive = [r for r in rows if str(r[alive_idx]).lower() == "true"]
                     if alive:
-                        print(f"  ✓ StarRocks готов ({len(alive)} BE узлов, попытка {attempt})\n")
+                        print(f"  ✓ StarRocks готов ({len(alive)} BE, попытка {attempt})\n")
                         return conn
             conn.close()
             print(f"  ⏳ попытка {attempt}: FE отвечает, ждём BE...")
         except Exception as e:
-            print(f"  ⏳ попытка {attempt}: {type(e).__name__}: {str(e)[:100]}")
+            print(f"  ⏳ попытка {attempt}: {type(e).__name__}: {str(e)[:80]}")
 
         time.sleep(5)
 
-    print("  ❌ StarRocks не поднялся за отведённое время", file=sys.stderr)
+    print("  ❌ StarRocks не поднялся", file=sys.stderr)
     return None
 
 
@@ -133,7 +133,6 @@ def create_schema_and_tables(conn, schema):
 
 
 def load_one_file(conn, table_name, s3_key):
-    """Загружает один CSV-файл через FILES() с конкретным путём (без wildcard)."""
     target = f"raw_{table_name}"
     path = f"s3://{S3_BUCKET}/{s3_key}"
 
@@ -159,7 +158,6 @@ def load_one_file(conn, table_name, s3_key):
 
 
 def load_table_from_s3(conn, s3, table_name):
-    """Загружает все CSV-файлы таблицы по одному."""
     target = f"raw_{table_name}"
     prefix = f"{LAYER}/{table_name}/"
 
