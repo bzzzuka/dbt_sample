@@ -1,0 +1,40 @@
+# Logs
+*.log
+logs/
+airflow/logs/
+project/logs/
+
+# dbt build artifacts
+target/
+project/target/
+dbt_packages/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Node
+node_modules/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local dbt user config
+dbt/profiles/.user.yml
+
+# Local env overrides
+.env.local
+
+# Spark / Ivy cache
+.ivy2/

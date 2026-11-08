@@ -88,6 +88,7 @@ services:
     depends_on:
       superset-init: { condition: service_completed_successfully }
       starrocks: { condition: service_started }
+      redis: { condition: service_healthy }
     environment:
       - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
       - SUPERSET_CONFIG_PATH=/app/pythonpath/superset_config.py
@@ -154,6 +155,7 @@ services:
     container_name: superset_dashboards
     depends_on:
       superset: { condition: service_healthy }
+      redis: { condition: service_healthy }
     environment:
       - SUPERSET_URL=http://superset:8088
       - SUPERSET_USERNAME=admin
@@ -211,8 +213,8 @@ services:
       - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=True
       - _AIRFLOW_DB_MIGRATE=true
       - _AIRFLOW_WWW_USER_CREATE=true
-      - _AIRFLOW_WWW_USER_USERNAME=admin
-      - _AIRFLOW_WWW_USER_PASSWORD=admin
+      - _AIRFLOW_WWW_USER_USERNAME=${AIRFLOW_ADMIN_USERNAME}
+      - _AIRFLOW_WWW_USER_PASSWORD=${AIRFLOW_ADMIN_PASSWORD}
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/logs:/opt/airflow/logs

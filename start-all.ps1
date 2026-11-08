@@ -9,8 +9,8 @@ Write-Host "=== Start FULL stack ===" -ForegroundColor Cyan
 Write-Host "Components: StarRocks, MinIO, dbt, Superset, Airflow" -ForegroundColor Gray
 
 # 1. Base
-Write-Host "`n[1/5] StarRocks + MinIO..." -ForegroundColor Yellow
-docker compose up -d starrocks minio
+Write-Host "`n[1/5] StarRocks + MinIO + Redis..." -ForegroundColor Yellow
+docker compose up -d starrocks minio redis
 Start-Sleep -Seconds 60
 
 # 2. Data + dbt

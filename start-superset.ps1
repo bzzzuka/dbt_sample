@@ -13,8 +13,8 @@ docker compose stop airflow-webserver airflow-scheduler airflow-worker airflow-t
 Start-Sleep -Seconds 5
 
 # 2. База
-Write-Host "`n[2/5] StarRocks + MinIO..." -ForegroundColor Yellow
-docker compose up -d starrocks minio
+Write-Host "`n[2/5] StarRocks + MinIO + Redis..." -ForegroundColor Yellow
+docker compose up -d starrocks minio redis
 Start-Sleep -Seconds 60
 
 # 3. Данные и dbt
