@@ -7,10 +7,12 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip config set global.trusted-host pypi.tuna.tsinghua.edu.cn
 
 RUN pip install --no-cache-dir \
-    apache-airflow-providers-common-sql \
-    astronomer-cosmos \
+    "apache-airflow==2.10.5" \
     dbt-core==1.6.2 \
     dbt-starrocks==1.6.2 \
+    boto3 \
+    botocore \
+    pymysql \
     pandas \
     requests
 

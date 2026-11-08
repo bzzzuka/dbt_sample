@@ -19,3 +19,4 @@ sources:
       - name: raw_transport_routes
       - name: raw_customs_declarations
       - name: raw_supplier_ratings
+      - name: raw_moex_prices

@@ -27,6 +27,7 @@ Write-Host "`n[4/5] Superset..." -ForegroundColor Yellow
 docker compose up -d superset-init
 Start-Sleep -Seconds 60
 docker compose up -d superset
+docker compose up -d superset-dashboards
 
 # 5. Проверка
 Write-Host "`n[5/5] Статус..." -ForegroundColor Yellow

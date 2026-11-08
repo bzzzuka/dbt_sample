@@ -325,7 +325,7 @@ PROPERTIES (
 |---------------------------------------|-------------------------------------------------|
 | CREATE EXTERNAL CATALOG IF NOT EXISTS | Идемпотентно создаёт каталог                    |
 | "type" = "iceberg"                    | Тип каталога — Iceberg                          |
-| "iceberg.catalog.type" = "rest"       | REST-каталог (не Hive, не Glue)                 |
+| "iceberg.catalog.type" = "rest"       | REST-каталог (удалённый сервис метаданных)      |
 | "iceberg.catalog.uri" = ...           | URL Iceberg REST (внутри сети — `iceberg-rest`) |
 | "aws.s3.endpoint" = ...               | MinIO endpoint                                  |
 | "aws.s3.access_key" = ...             | Логин MinIO                                     |

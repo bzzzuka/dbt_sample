@@ -132,6 +132,30 @@ def create_schema_and_tables(conn, schema):
             print(f"  + Таблица {target} создана ({len(cols)} колонок)")
 
 
+def ensure_moex_table(conn):
+    with conn.cursor() as cur:
+        cur.execute(f"USE {SR_SCHEMA}")
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS raw_moex_prices (
+                ticker      VARCHAR(20),
+                tradedate   DATE,
+                open        DECIMAL(15,2),
+                high        DECIMAL(15,2),
+                low         DECIMAL(15,2),
+                close       DECIMAL(15,2),
+                volume      BIGINT,
+                value       DECIMAL(20,2),
+                numtrades   BIGINT,
+                boardid     VARCHAR(10)
+            )
+            ENGINE=OLAP
+            DUPLICATE KEY(ticker, tradedate)
+            DISTRIBUTED BY HASH(ticker) BUCKETS 4
+            PROPERTIES ("replication_num" = "1")
+        """)
+        print("  + Таблица raw_moex_prices готова")
+
+
 def load_one_file(conn, table_name, s3_key):
     target = f"raw_{table_name}"
     path = f"s3://{S3_BUCKET}/{s3_key}"
@@ -194,6 +218,7 @@ def main():
 
     print("Создание схемы и таблиц...")
     create_schema_and_tables(conn, schema)
+    ensure_moex_table(conn)
     print()
 
     print("Загрузка данных из S3 в StarRocks...")

@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: retail_raw
+    schema: analytics
+    tables:
+      - name: raw_retail_categories
+      - name: raw_retail_products
+      - name: raw_retail_customers
+      - name: raw_retail_stores
+      - name: raw_retail_promotions
+      - name: raw_retail_orders
+      - name: raw_retail_order_items
+      - name: raw_retail_payments
+      - name: raw_retail_shipments
+      - name: raw_retail_returns
+      - name: raw_retail_reviews

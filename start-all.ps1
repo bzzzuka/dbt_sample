@@ -23,6 +23,7 @@ Write-Host "`n[3/5] Superset..." -ForegroundColor Yellow
 docker compose up -d superset-init
 Start-Sleep -Seconds 60
 docker compose up -d superset
+docker compose up -d superset-dashboards
 
 # 4. Airflow
 Write-Host "`n[4/5] Airflow init..." -ForegroundColor Yellow

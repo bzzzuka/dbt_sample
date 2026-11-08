@@ -1,4 +1,4 @@
-CREATE EXTERNAL CATALOG iceberg_lakehouse
+CREATE EXTERNAL CATALOG IF NOT EXISTS iceberg_lakehouse
 PROPERTIES (
   "type" = "iceberg",
   "iceberg.catalog.type" = "rest",

@@ -22,6 +22,8 @@ ENV = {
     "COLUMNS_PER_TABLE": "120",
     "WRITE_LOCAL": "false",
     "SCHEMA_JSON_PATH": "/tmp/_schema.json",
+    "RETAIL_PREFIX": "retail/stg",
+    "RETAIL_SCHEMA_JSON_PATH": "/tmp/_retail_schema.json",
     "DBT_PROJECT_DIR": "/opt/airflow/dbt_project",
     "DBT_PROFILES_DIR": "/opt/airflow/dbt_profiles",
 }
@@ -33,13 +35,13 @@ default_args = {
 
 with DAG(
     dag_id="dbt_supply_chain_pipeline",
-    description="Generaciya -> S3 -> StarRocks -> dbt",
+    description="Supply chain + retail: generaciya -> S3 -> StarRocks -> dbt",
     default_args=default_args,
     start_date=datetime(2026, 1, 1),
     schedule="0 3 * * *",
     catchup=False,
     max_active_runs=1,
-    tags=["dbt", "starrocks"],
+    tags=["dbt", "starrocks", "retail"],
 ) as dag:
 
     gen = BashOperator(
@@ -51,6 +53,18 @@ with DAG(
     load = BashOperator(
         task_id="load_to_starrocks",
         bash_command="python /opt/airflow/dbt/scripts/load_s3_to_starrocks.py",
+        env=ENV,
+    )
+
+    retail_gen = BashOperator(
+        task_id="generate_retail",
+        bash_command="python /opt/airflow/dbt/scripts/generate_retail.py",
+        env=ENV,
+    )
+
+    retail_load = BashOperator(
+        task_id="load_retail_to_starrocks",
+        bash_command="python /opt/airflow/dbt/scripts/load_retail_to_starrocks.py",
         env=ENV,
     )
 
@@ -78,4 +92,4 @@ with DAG(
         env=ENV,
     )
 
-    gen >> load >> run >> test
+    gen >> load >> retail_gen >> retail_load >> run >> test

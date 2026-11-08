@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: mart_retail__sales_by_month
+    description: "Retail: выручка, заказы, скидки и средний чек по месяцам."
+    columns:
+      - name: month
+        tests: [unique, not_null]
+
+  - name: mart_retail__top_products
+    description: "Retail: топ товаров по выручке и проданным единицам."
+    columns:
+      - name: product_id
+        tests: [unique, not_null]
+
+  - name: mart_retail__customer_ltv
+    description: "Retail: LTV и активность клиентов."
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+
+  - name: mart_retail__returns_rate
+    description: "Retail: доля возвратов и сумма возвратов по месяцам."
+    columns:
+      - name: month
+        tests: [unique, not_null]
+
+  - name: mart_retail__sales_by_category
+    description: "Retail: продажи по категориям и доля в выручке."
+    columns:
+      - name: category_id
+        tests: [unique, not_null]
