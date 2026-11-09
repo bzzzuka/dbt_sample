@@ -1,0 +1,14 @@
+# Optional fallback for Apple Silicon.
+# Use only if an arm64 image is unstable:
+#   USE_AMD64=1 ./scripts/macos/start-all.sh
+# or:
+#   docker compose -f docker-compose.yml -f docker-compose.mac-amd64.yml up -d --build
+#
+# Docker Desktop must have Rosetta / x86_64 emulation enabled.
+services:
+  starrocks:
+    platform: linux/amd64
+  iceberg-rest:
+    platform: linux/amd64
+  spark-iceberg:
+    platform: linux/amd64

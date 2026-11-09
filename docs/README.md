@@ -46,12 +46,13 @@ Docker Compose на одной машине:
 ## С чего начать: маршрут чтения
 
 1. **Хочу просто запустить** → [`RUNBOOK.md`](RUNBOOK.md), раздел «Полный запуск».
-2. **Хочу понять, как всё связано** → [`ARCHITECTURE.md`](ARCHITECTURE.md).
-3. **Хочу разобраться в конкретном модуле** → файлы в [`modules/`](modules/).
-4. **Хочу добавить новую таблицу, витрину, DAG или дашборд** →
+2. **Собираю на Windows, Linux или macOS** → [`BUILD.md`](BUILD.md), отдельные блоки для Windows, Linux и macOS.
+3. **Хочу понять, как всё связано** → [`ARCHITECTURE.md`](ARCHITECTURE.md).
+4. **Хочу разобраться в конкретном модуле** → файлы в [`modules/`](modules/).
+5. **Хочу добавить новую таблицу, витрину, DAG или дашборд** →
    [`DEVELOPMENT_GUIDE.md`](DEVELOPMENT_GUIDE.md).
-5. **Хочу выбрать новую цель/направление** → [`ROADMAP.md`](ROADMAP.md).
-6. **Хочу проверить, что всё работает** →
+6. **Хочу выбрать новую цель/направление** → [`ROADMAP.md`](ROADMAP.md).
+7. **Хочу проверить, что всё работает** →
    [`modules/10-checks-and-tests.md`](modules/10-checks-and-tests.md).
 
 ---
@@ -64,7 +65,7 @@ Docker Compose на одной машине:
 - Docker Compose v2.
 - **8 ГБ ОЗУ минимум**, лучше 16 ГБ.
 - ~15 ГБ свободного диска.
-- Windows PowerShell (скрипты проекта — PowerShell).
+- Windows PowerShell для `scripts/windows/*.ps1` или bash для `scripts/linux/*.sh`.
 
 Проверить Docker:
 
@@ -103,12 +104,19 @@ AIRFLOW__WEBSERVER__SECRET_KEY=airflow_webserver_secret_local
 
 ### 3. Запустить весь стек
 
-Рекомендуемый путь:
+Рекомендуемый путь (работает на Windows и macOS):
 
 ```powershell
 docker compose config
 docker compose up -d --build
 docker compose ps -a
+```
+
+На Linux/macOS можно использовать готовые скрипты:
+
+```bash
+chmod +x scripts/linux/*.sh
+./scripts/linux/start-all.sh
 ```
 
 Первый запуск может занять несколько минут: собираются образы Airflow,
@@ -184,6 +192,7 @@ docker exec starrocks mysql -h 127.0.0.1 -P 9030 -uroot -e "SELECT COUNT(*) FROM
 
 | Файл | Что внутри |
 |---|---|
+| [`BUILD.md`](BUILD.md) | Сборка на Windows, Linux и macOS, скрытые prerequisites, скрипты для Linux/macOS |
 | [`RUNBOOK.md`](RUNBOOK.md) | Как запускать, останавливать, проверять и чинить стек |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Архитектура, потоки данных, сервисы, порты, volumes |
 | [`DATA_MODEL.md`](DATA_MODEL.md) | Таблицы, связи, витрины, lineage |

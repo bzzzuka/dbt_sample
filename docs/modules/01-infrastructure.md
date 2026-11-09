@@ -5,7 +5,10 @@
 - `docker-compose.yml`
 - `.env`
 - `.gitignore`
-- `start-all.ps1`, `start-airflow.ps1`, `start-superset.ps1`
+- `scripts/windows/start-*.ps1`, `scripts/windows/stop.ps1`
+- `scripts/linux/start-*.sh`, `scripts/linux/stop.sh`
+- `scripts/common.ps1`, `scripts/common.sh`
+- `docker-compose.mac-amd64.yml`
 
 ---
 
@@ -241,12 +244,31 @@ git commit -m "chore: stop tracking runtime artifacts"
 
 | Скрипт | Что запускает | Ограничение |
 |---|---|---|
-| `start-all.ps1` | StarRocks, MinIO, Redis, data-init, dbt, Superset, dashboards, Airflow (включая worker) | Фиксированные `Start-Sleep` |
-| `start-airflow.ps1` | Airflow без Superset | **Не запускает `airflow-worker`** — добавьте `docker compose up -d airflow-worker` |
-| `start-superset.ps1` | Superset без Airflow | Не запускает `superset-worker`; для дашбордов не критично |
+| `scripts/windows/start-all.ps1` | StarRocks, MinIO, Redis, data-init, dbt, Superset, dashboards, Airflow (включая worker) | Ждёт healthcheck/one-shot, использует `scripts/common.ps1` |
+| `scripts/windows/start-airflow.ps1` | Airflow без Superset, включая worker | — |
+| `scripts/windows/start-superset.ps1` | Superset без Airflow, включая `superset-worker` | — |
+| `scripts/windows/stop.ps1` | `docker compose stop` | volumes сохраняются |
+
+Для Linux/macOS:
+
+| Скрипт | Что запускает | Особенность |
+|---|---|---|
+| `scripts/linux/start-all.sh` | полный стек | ждёт one-shot и healthcheck, включает оба worker |
+| `scripts/linux/start-airflow.sh` | Airflow без Superset | включает `airflow-worker` |
+| `scripts/linux/start-superset.sh` | Superset без Airflow | включает `superset-worker` |
+| `scripts/linux/stop.sh` | `docker compose stop` | volumes сохраняются |
+
+Fallback для Apple Silicon:
+
+```bash
+USE_AMD64=1 ./scripts/linux/start-all.sh
+```
+
+подключает `docker-compose.mac-amd64.yml` (StarRocks, Iceberg REST, Spark
+как `linux/amd64`). Требуется Rosetta.
 
 Рекомендуемый путь — `docker compose up -d` (см. `RUNBOOK.md`). Скрипты —
-удобные обёртки для слабых машин.
+удобные обёртки.
 
 ---
 

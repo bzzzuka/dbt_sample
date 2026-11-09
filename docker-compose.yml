@@ -13,6 +13,10 @@ services:
       - "8040:8040"
     volumes:
       - starrocks_data:/data
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
     networks: [dbt_network]
 
   minio:

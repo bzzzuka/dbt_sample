@@ -309,12 +309,9 @@ docker exec airflow_scheduler airflow dags list-import-errors
 1. **`spark_etl_dag.py` отсутствует.** Он упоминается в старом README, но
    не реализован: Airflow-контейнер не имеет Docker socket и Spark runtime.
    Spark ETL запускается вручную.
-2. **`start-airflow.ps1` не запускает `airflow-worker`.** После него
-   выполните `docker compose up -d airflow-worker` или используйте
-   `docker compose up -d`.
-3. **Credentials в DAG `ENV` захардкожены.** Синхронизируйте с `.env`.
-4. **`astronomer-cosmos` не установлен.** Он не используется.
-5. **`airflow/README.md` устарел** (описывает 4 задачи и `requirements.txt`).
+2. **Credentials в DAG `ENV` захардкожены.** Синхронизируйте с `.env`.
+3. **`astronomer-cosmos` не установлен.** Он не используется.
+4. **`airflow/README.md` устарел** (описывает 4 задачи и `requirements.txt`).
    Актуальная документация — этот файл и `docs/`.
 
 ---

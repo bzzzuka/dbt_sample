@@ -2,7 +2,12 @@
 
 **Файлы модуля:**
 
-- `start-all.ps1`, `start-airflow.ps1`, `start-superset.ps1`
+- `scripts/windows/start-all.ps1`, `start-airflow.ps1`, `start-superset.ps1`,
+  `stop.ps1`
+- `scripts/linux/start-all.sh`, `start-airflow.sh`, `start-superset.sh`,
+  `stop.sh`
+- `scripts/common.ps1`, `scripts/common.sh`, `scripts/README.md`
+- `docker-compose.mac-amd64.yml`
 - `make_dag.py`
 - `setup_starrocks.py`
 - `make_stg.ps1`
@@ -14,7 +19,7 @@
 
 ## 1. Start-скрипты
 
-### `start-all.ps1`
+### `scripts/windows/start-all.ps1`
 
 Запускает полный стек:
 
@@ -24,36 +29,64 @@
 - Airflow init + webserver/scheduler/worker/triggerer.
 
 ```powershell
-.\start-all.ps1
+.\scripts\windows\start-all.ps1
 ```
 
-Ограничение: использует фиксированные `Start-Sleep`. На медленной машине
-лучше `docker compose up -d`.
+Скрипт использует `scripts/common.ps1`, проверяет `docker compose config`,
+ждёт one-shot и healthcheck.
 
-### `start-airflow.ps1`
+### `scripts/windows/start-airflow.ps1`
 
-Режим «Airflow без Superset».
+Режим «Airflow без Superset», включая `airflow-worker`.
 
 ```powershell
-.\start-airflow.ps1
+.\scripts\windows\start-airflow.ps1
 ```
 
-**Важно:** текущая версия не запускает `airflow-worker`. При CeleryExecutor
-задачи останутся в очереди. После скрипта:
+### `scripts/windows/start-superset.ps1`
+
+Режим «Superset без Airflow», включая `superset-worker`.
 
 ```powershell
-docker compose up -d airflow-worker
+.\scripts\windows\start-superset.ps1
 ```
 
-### `start-superset.ps1`
+### `scripts/windows/stop.ps1`
 
-Режим «Superset без Airflow».
+Останавливает проект, volumes сохраняются.
 
 ```powershell
-.\start-superset.ps1
+.\scripts\windows\stop.ps1
 ```
 
-`superset-worker` не запускается; для дашбордов он не обязателен.
+### Linux/macOS-скрипты
+
+Для Linux/macOS отдельные bash-скрипты в `scripts/linux/`, общие функции — в
+`scripts/common.sh`:
+
+| Скрипт | Что делает |
+|---|---|
+| `scripts/common.sh` | общие функции: `dc`, ожидание healthcheck, one-shot, StarRocks |
+| `scripts/linux/start-all.sh` | полный стек, включая `airflow-worker` и `superset-worker` |
+| `scripts/linux/start-airflow.sh` | Airflow без Superset, включая `airflow-worker` |
+| `scripts/linux/start-superset.sh` | Superset без Airflow, включая `superset-worker` |
+| `scripts/linux/stop.sh` | `docker compose stop`, volumes сохраняются |
+
+Запуск:
+
+```bash
+chmod +x scripts/linux/*.sh
+./scripts/linux/start-all.sh
+```
+
+Fallback для Apple Silicon:
+
+```bash
+USE_AMD64=1 ./scripts/linux/start-all.sh
+```
+
+Он подключает `docker-compose.mac-amd64.yml` и запускает StarRocks,
+Iceberg REST и Spark как `linux/amd64`. Требуется Rosetta.
 
 ---
 
@@ -191,6 +224,15 @@ git commit -m "chore: untrack runtime artifacts"
 | `docker compose logs ...` | Да |
 | `docker compose run ... dbt ...` | Да |
 | `docker exec ... airflow ...` | Да |
+| `.\scripts\windows\start-all.ps1` | Да (Windows) |
+| `.\scripts\windows\start-airflow.ps1` | Да (Windows) |
+| `.\scripts\windows\start-superset.ps1` | Да (Windows) |
+| `.\scripts\windows\stop.ps1` | Да (Windows) |
+| `./scripts/linux/start-all.sh` | Да (Linux/macOS) |
+| `./scripts/linux/start-airflow.sh` | Да (Linux/macOS) |
+| `./scripts/linux/start-superset.sh` | Да (Linux/macOS) |
+| `./scripts/linux/stop.sh` | Да |
+| `USE_AMD64=1 ./scripts/linux/start-all.sh` | Да, если включена Rosetta |
 | `python setup_starrocks.py` | **Нет** |
 | `python make_dag.py` | **Нет** |
 | `make_stg.ps1` | Безвредно, но бесполезно |

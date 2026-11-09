@@ -40,6 +40,9 @@ Healthcheck в образе отсутствует — это известное
 используется `condition: service_started`, а Python-загрузчики сами ждут
 готовности через `SHOW BACKENDS`.
 
+В compose для `starrocks` также задан `ulimits.nofile: 65535` — это важно
+для BE на нативном Linux.
+
 Проверить:
 
 ```powershell

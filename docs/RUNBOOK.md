@@ -66,7 +66,7 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 В PowerShell скрипт запускается с `.\`:
 
 ```powershell
-.\start-all.ps1
+.\scripts\windows\start-all.ps1
 ```
 
 ---
@@ -326,62 +326,62 @@ Invoke-RestMethod -Uri http://localhost:8088/api/v1/dashboard/ -Headers $h |
 
 ---
 
-## 4. Режимы запуска (PowerShell-скрипты)
+## 4. Режимы запуска (Windows/Linux/macOS)
 
-Скрипты удобны на слабых машинах, но полный `docker compose up -d` надёжнее:
-он учитывает healthcheck и не зависит от `Start-Sleep`.
+Скрипты используют общие helper'ы (`scripts/common.ps1` и
+`scripts/common.sh`), проверяют `docker compose config`, ждут завершения
+one-shot сервисов и healthcheck. Полный `docker compose up -d` также
+подходит, если не нужны обёртки.
 
-### 4.1. `start-all.ps1`
+### 4.1. `scripts/windows/start-all.ps1`
 
 Запускает StarRocks, MinIO, Redis, data-init, dbt, Superset, дашборды и
 Airflow (webserver, scheduler, worker, triggerer).
 
 ```powershell
-.\start-all.ps1
+.\scripts\windows\start-all.ps1
 ```
 
-Ограничение: скрипт использует фиксированные паузы. На медленной машине
-сервис может ещё не быть готов. Если что-то не поднялось — проверьте
-`docker compose ps -a` и логи.
-
-### 4.2. `start-airflow.ps1`
+### 4.2. `scripts/windows/start-airflow.ps1`
 
 Режим «Airflow без Superset»: StarRocks, MinIO, data-init, dbt, Postgres,
-Redis, Airflow.
+Redis, Airflow, включая `airflow-worker`.
 
 ```powershell
-.\start-airflow.ps1
+.\scripts\windows\start-airflow.ps1
 ```
 
-**Важно:** текущая версия скрипта запускает webserver, scheduler и triggerer,
-но **не запускает `airflow-worker`**. При CeleryExecutor задачи будут
-висеть в очереди. После скрипта выполните:
-
-```powershell
-docker compose up -d airflow-worker
-```
-
-Либо сразу используйте полный `docker compose up -d`.
-
-### 4.3. `start-superset.ps1`
+### 4.3. `scripts/windows/start-superset.ps1`
 
 Режим «Superset без Airflow»: StarRocks, MinIO, Redis, data-init, dbt,
-Superset, дашборды.
+Superset, дашборды, включая `superset-worker`.
 
 ```powershell
-.\start-superset.ps1
-```
-
-`superset-worker` в этом режиме не запускается. Для дашбордов он не нужен;
-если нужны асинхронные задачи Superset:
-
-```powershell
-docker compose up -d superset-worker
+.\scripts\windows\start-superset.ps1
 ```
 
 ### 4.4. Linux/macOS
 
-PowerShell-скрипты не нужны. Используйте:
+PowerShell-скрипты не нужны. Есть отдельные bash-скрипты:
+
+```bash
+chmod +x scripts/linux/*.sh
+./scripts/linux/start-all.sh
+./scripts/linux/start-airflow.sh
+./scripts/linux/start-superset.sh
+./scripts/linux/stop.sh
+```
+
+Они ждут завершения one-shot сервисов и healthcheck, включают нужные
+worker'ы. Подробная сборка на Windows/Linux/macOS — [`BUILD.md`](BUILD.md).
+
+Fallback для Apple Silicon:
+
+```bash
+USE_AMD64=1 ./scripts/linux/start-all.sh
+```
+
+Либо напрямую:
 
 ```bash
 docker compose up -d --build
@@ -443,7 +443,12 @@ docker compose up -d superset superset-worker superset-dashboards
 
 ```powershell
 docker compose stop
-# или
+
+# или обёртки:
+.\scripts\windows\stop.ps1          # Windows
+./scripts/linux/stop.sh             # Linux/macOS
+
+# или (удаляет контейнеры, но не volumes):
 docker compose down
 ```
 

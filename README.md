@@ -3,10 +3,16 @@
 Полный локальный стек для data engineering: генерация → S3 → lakehouse → аналитика.
 Включает оркестрацию, трансформации, BI и работу с современным табличным форматом Iceberg.
 
-> **Актуальная документация:** [`docs/README.md`](docs/README.md)  
-> **Как запускать:** [`docs/RUNBOOK.md`](docs/RUNBOOK.md)  
-> **Как развивать:** [`docs/DEVELOPMENT_GUIDE.md`](docs/DEVELOPMENT_GUIDE.md)  
-> **Новые цели:** [`docs/ROADMAP.md`](docs/ROADMAP.md)  
+> **Актуальная документация:** [`docs/README.md`](docs/README.md)
+>
+> **Сборка Windows/Linux/macOS:** [`docs/BUILD.md`](docs/BUILD.md)
+>
+> **Как запускать:** [`docs/RUNBOOK.md`](docs/RUNBOOK.md)
+>
+> **Как развивать:** [`docs/DEVELOPMENT_GUIDE.md`](docs/DEVELOPMENT_GUIDE.md)
+>
+> **Новые цели:** [`docs/ROADMAP.md`](docs/ROADMAP.md)
+>
 > **Модель данных:** [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md)
 >
 > В этом README сохранён базовый обзор supply-chain версии. Актуальные
@@ -105,9 +111,11 @@
 dbt_sample/
 ├── .env                          # Переменные окружения
 ├── docker-compose.yml            # Все сервисы
-├── start-airflow.ps1             # Запуск Airflow-режима
-├── start-superset.ps1            # Запуск Superset-режима
-├── start-all.ps1                 # Запуск всего (>=7 GB)
+├── scripts/                      # Запуск и общие helper'ы
+│   ├── common.ps1                # Общие функции Windows
+│   ├── common.sh                 # Общие функции Linux/macOS
+│   ├── windows/                  # start-all.ps1, start-airflow.ps1, start-superset.ps1
+│   └── linux/                    # start-all.sh, start-airflow.sh, start-superset.sh, stop.sh
 ├── README.md
 │
 ├── dbt/                          # Инфраструктура dbt
@@ -226,19 +234,19 @@ AIRFLOW__WEBSERVER__SECRET_KEY=airflow_secret_local
 **Airflow-режим** (StarRocks + MinIO + dbt + Airflow):
 
 ```powershell
-.\start-airflow.ps1
+.\scripts\windows\start-airflow.ps1
 ```
 
 **Superset-режим** (StarRocks + MinIO + dbt + Superset):
 
 ```powershell
-.\start-superset.ps1
+.\scripts\windows\start-superset.ps1
 ```
 
 **Всё сразу** (нужно >=7 ГБ Docker RAM):
 
 ```powershell
-.\start-all.ps1
+.\scripts\windows\start-all.ps1
 ```
 
 > На Windows PowerShell указывай `.\` перед именем скрипта. Если PowerShell ругается на политику — выполни один раз:
@@ -419,7 +427,7 @@ docker compose logs -f starrocks
 `Exited (137)` = OOM.
 
 - Увеличить `.wslconfig`: `memory=8GB` (при 16 ГБ хоста)
-- Работать по режимам: `start-airflow.ps1` / `start-superset.ps1`
+- Работать по режимам: `scripts/windows/start-airflow.ps1` / `scripts/windows/start-superset.ps1`
 - Останавливать ненужное: `docker compose stop airflow-worker`
 
 ---
