@@ -3,6 +3,15 @@
 Полный локальный стек для data engineering: генерация → S3 → lakehouse → аналитика.
 Включает оркестрацию, трансформации, BI и работу с современным табличным форматом Iceberg.
 
+> **Актуальная документация:** [`docs/README.md`](docs/README.md)  
+> **Как запускать:** [`docs/RUNBOOK.md`](docs/RUNBOOK.md)  
+> **Как развивать:** [`docs/DEVELOPMENT_GUIDE.md`](docs/DEVELOPMENT_GUIDE.md)  
+> **Новые цели:** [`docs/ROADMAP.md`](docs/ROADMAP.md)  
+> **Модель данных:** [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md)
+>
+> В этом README сохранён базовый обзор supply-chain версии. Актуальные
+> цифры (retail, 2 дашборда, 39 моделей, 19 тестов) — в `docs/`.
+
 ## Содержание
 
 - [О проекте](#о-проекте)
