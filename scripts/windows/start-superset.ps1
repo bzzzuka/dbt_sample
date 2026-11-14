@@ -1,5 +1,5 @@
-# start-superset.ps1 - Start Superset + StarRocks + MinIO + dbt (without Airflow).
-# Requires Docker Desktop with WSL2, ~4.8 GB Docker RAM.
+# start-superset.ps1 - Start Superset + Trino + Iceberg + MinIO (without Airflow).
+# Requires Docker Desktop with WSL2, ~8 GB Docker RAM.
 
 $ErrorActionPreference = "Stop"
 . (Join-Path $PSScriptRoot "..\common.ps1")
@@ -16,13 +16,15 @@ try {
     Write-Host "Airflow services are not running; continuing."
 }
 
-Invoke-Compose up -d starrocks minio redis
-Wait-StarRocks
+Invoke-Compose up -d minio iceberg-rest trino redis
 Wait-Healthy minio
+Wait-Healthy iceberg-rest
+Wait-Trino
 Wait-Healthy redis
 
-Invoke-Compose up -d data-init dbt
+Invoke-Compose up -d data-init spark-etl dbt
 Wait-OneShot data-init
+Wait-OneShot spark-etl
 Wait-OneShot dbt
 
 Invoke-Compose up -d superset-init

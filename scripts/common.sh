@@ -86,30 +86,29 @@ wait_one_shot() {
     return 1
 }
 
-wait_starrocks() {
+wait_trino() {
     for _ in $(seq 1 120); do
-        if dc exec -T starrocks mysql -h 127.0.0.1 -P 9030 -uroot -e "SELECT 1" >/dev/null 2>&1; then
-            echo "[ok] starrocks: SQL ready"
+        if dc exec -T trino curl -fsS http://localhost:8080/v1/info >/dev/null 2>&1; then
+            echo "[ok] trino: ready"
             return 0
         fi
         sleep 3
     done
-    echo "ERROR: StarRocks SQL is not ready"
-    dc logs --tail=100 starrocks || true
+    echo "ERROR: Trino is not ready"
+    dc logs --tail=100 trino || true
     return 1
 }
-
 print_access() {
     cat <<'EOF'
 
 ============================================================
   Project is ready (Linux/macOS)
 ============================================================
+  Trino:        http://localhost:8081   trino / (empty)
+                catalog=iceberg schema=analytics
   Airflow:      http://localhost:8080   admin / admin
   Superset:     http://localhost:8088   admin / admin
   MinIO:        http://localhost:9001   minioadmin / minioadmin
-  StarRocks FE: http://localhost:8030   root / (empty)
-  StarRocks SQL: localhost:9030          root / (empty)
   Iceberg REST: http://localhost:8181
   Spark UI:     http://localhost:4040   (only while a Spark job runs)
 

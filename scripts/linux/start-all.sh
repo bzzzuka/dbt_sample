@@ -7,14 +7,15 @@ source "$SCRIPT_DIR/../common.sh"
 require_docker
 
 echo "============================================================"
-echo "  Start FULL stack: StarRocks + MinIO + dbt + Superset + Airflow"
+echo "  Start FULL stack: Trino + Iceberg + MinIO + dbt + Superset + Airflow"
 echo "============================================================"
 
 dc config --quiet
 dc up -d --build
 
 wait_one_shot data-init
-wait_starrocks
+wait_one_shot spark-etl
+wait_trino
 wait_one_shot dbt
 
 wait_one_shot superset-init

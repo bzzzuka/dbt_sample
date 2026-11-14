@@ -1,4 +1,4 @@
-# start-all.ps1 - Start the whole stack on Windows.
+# start-all.ps1 - Start the full Trino + Iceberg stack on Windows.
 # Requires Docker Desktop with WSL2, >= 8 GB Docker RAM.
 
 $ErrorActionPreference = "Stop"
@@ -7,14 +7,15 @@ $ErrorActionPreference = "Stop"
 Assert-Docker
 
 Write-Host "============================================================"
-Write-Host "  Start FULL stack: StarRocks + MinIO + dbt + Superset + Airflow"
+Write-Host "  Start FULL stack: Trino + Iceberg + MinIO + dbt + Superset + Airflow"
 Write-Host "============================================================"
 
 Invoke-Compose config --quiet
 Invoke-Compose up -d --build
 
 Wait-OneShot data-init
-Wait-StarRocks
+Wait-OneShot spark-etl
+Wait-Trino
 Wait-OneShot dbt
 
 Wait-OneShot superset-init

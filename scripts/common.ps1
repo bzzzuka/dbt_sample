@@ -107,22 +107,22 @@ function Wait-OneShot {
     throw "$Service did not finish in time"
 }
 
-function Wait-StarRocks {
+function Wait-Trino {
     param([int]$Attempts = 120)
 
     $ErrorActionPreference = "Continue"
 
     for ($i = 0; $i -lt $Attempts; $i++) {
-        & docker compose exec -T starrocks mysql -h 127.0.0.1 -P 9030 -uroot -e "SELECT 1" *> $null
+        & docker compose exec -T trino curl -fsS http://localhost:8080/v1/info *> $null
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "[ok] starrocks: SQL ready"
+            Write-Host "[ok] trino: ready"
             return
         }
         Start-Sleep -Seconds 3
     }
 
-    & docker compose logs --tail=100 starrocks
-    throw "StarRocks SQL is not ready"
+    & docker compose logs --tail=100 trino
+    throw "Trino is not ready"
 }
 
 function Write-Access {
@@ -131,11 +131,11 @@ function Write-Access {
 ============================================================
   Project is ready (Windows)
 ============================================================
+  Trino:        http://localhost:8081   trino / (empty)
+                catalog=iceberg schema=analytics
   Airflow:      http://localhost:8080   admin / admin
   Superset:     http://localhost:8088   admin / admin
   MinIO:        http://localhost:9001   minioadmin / minioadmin
-  StarRocks FE: http://localhost:8030   root / (empty)
-  StarRocks SQL: localhost:9030          root / (empty)
   Iceberg REST: http://localhost:8181
   Spark UI:     http://localhost:4040   (only while a Spark job runs)
 
