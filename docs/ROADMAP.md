@@ -11,12 +11,12 @@
 
 Уже работает:
 
-- supply chain: 15 таблиц, ~120 колонок, 5000 строк;
-- retail: 11 таблиц, 5000 заказов;
-- dbt: 39 моделей, 19 тестов;
+- supply chain: 15 таблиц, ~120 колонок, 100000 строк;
+- retail: 11 таблиц, 200000 заказов;
+- dbt: 37 моделей, 19 тестов;
 - Airflow DAG: 6 задач;
 - Spark ETL → Iceberg `suppliers`;
-- StarRocks external catalog `iceberg_lakehouse`;
+- Trino + Iceberg REST catalog;
 - Superset: 2 дашборда, 16 чартов;
 - Redis results backend для Superset;
 - full stack в Docker Compose.
@@ -38,7 +38,7 @@
 - «переписать всё на другой стек» без причины;
 - «добавить миллион строк» без проверки памяти;
 - «сразу production» без тестов и мониторинга;
-- изменение версий dbt/StarRocks без плана отката.
+- изменение версий dbt/Trino/Iceberg без плана отката.
 
 ---
 
@@ -72,7 +72,7 @@
 | Алерты Airflow → Telegram/Slack | реакция на падения | on_failure_callback |
 | CI/CD GitHub Actions | качество | lint + dbt + compose config на PR |
 | Terraform | IaC | воспроизводимая инфраструктура |
-| Backup/restore | сохранность | скрипт backup MinIO/StarRocks/Postgres |
+| Backup/restore | сохранность | скрипт backup MinIO/Iceberg/Postgres |
 
 ---
 
@@ -153,11 +153,11 @@
 
 ## 7. Чего избегать
 
-- Не запускайте `setup_starrocks.py` и `make_dag.py` — они перезапишут
+- `setup_starrocks.py` и `make_dag.py` удалены из проекта; не возвращайте
   актуальную архитектуру.
 - Не коммитьте логи, `target`, `__pycache__`.
 - Не храните реальные секреты в git.
-- Не обновляйте dbt-starrocks/StarRocks без тестового прогона.
+- Не обновляйте Trino/Iceberg/dbt-trino без тестового прогона.
 - Не добавляйте миллионы строк без проверки RAM и времени.
 
 ---

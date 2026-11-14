@@ -1,12 +1,4 @@
-{{ config(
-    materialized='table',
-    engine='OLAP',
-    keys=['warehouse_id'],
-    table_type='PRIMARY',
-    distributed_by=['warehouse_id'],
-    buckets=4,
-    properties='{"replication_num": "1"}'
-) }}
+{{ config(materialized='table', format='PARQUET') }}
 
 WITH movements AS (
     SELECT

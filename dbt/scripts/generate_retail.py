@@ -472,7 +472,9 @@ def build_data():
     for i in range(1, REVIEWS + 1):
         product = rng.choice(products)
         customer = rng.choice(customers)
-        order, (order_dt, _) = rng.choice(list(zip(orders, order_meta)))
+        order_idx = rng.randrange(len(orders))
+        order = orders[order_idx]
+        order_dt = order_meta[order_idx][0]
         reviews.append({
             "review_id": i,
             "product_id": product["product_id"],

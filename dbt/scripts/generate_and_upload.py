@@ -448,8 +448,6 @@ def write_dbt_models(tables_columns):
     sources = "version: 2\n\nsources:\n  - name: raw\n    schema: analytics\n    tables:\n"
     for table_name in tables_columns:
         sources += f"      - name: raw_{table_name}\n"
-    if (models_dir / "stg_moex_prices.sql").exists():
-        sources += "      - name: raw_moex_prices\n"
     (models_dir / "sources.yml").write_text(sources, encoding="utf-8")
 
     print(f"  ✓ Сгенерировано {len(tables_columns)} dbt-моделей в {models_dir}")

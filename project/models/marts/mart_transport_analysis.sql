@@ -1,12 +1,4 @@
-{{ config(
-    materialized='table',
-    engine='OLAP',
-    keys=['transport_mode'],
-    table_type='PRIMARY',
-    distributed_by=['transport_mode'],
-    buckets=4,
-    properties='{"replication_num": "1"}'
-) }}
+{{ config(materialized='table', format='PARQUET') }}
 
 WITH routes AS (
     SELECT
@@ -44,4 +36,5 @@ SELECT
         ELSE NULL
     END                                          AS cost_per_km
 FROM routes r
-FULL OUTER JOIN shipments s USING (transport_mode)
+FULL OUTER JOIN shipments s
+    ON r.transport_mode = s.transport_mode

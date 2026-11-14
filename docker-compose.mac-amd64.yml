@@ -6,8 +6,6 @@
 #
 # Docker Desktop must have Rosetta / x86_64 emulation enabled.
 services:
-  starrocks:
-    platform: linux/amd64
   iceberg-rest:
     platform: linux/amd64
   spark-iceberg:

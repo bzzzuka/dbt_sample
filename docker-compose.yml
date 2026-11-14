@@ -1,24 +1,5 @@
 services:
 
-  starrocks:
-    image: starrocks/allin1-ubuntu:3.4-latest
-    container_name: starrocks
-    hostname: starrocks
-    restart: unless-stopped
-    environment:
-      - TZ=UTC
-    ports:
-      - "8030:8030"
-      - "9030:9030"
-      - "8040:8040"
-    volumes:
-      - starrocks_data:/data
-    ulimits:
-      nofile:
-        soft: 65535
-        hard: 65535
-    networks: [dbt_network]
-
   minio:
     image: ghcr.io/coollabsio/minio:latest
     container_name: dbt_minio
@@ -43,15 +24,8 @@ services:
     build: { context: ./dbt, dockerfile: Dockerfile }
     container_name: dbt_data_init
     depends_on:
-      starrocks: { condition: service_started }
       minio: { condition: service_healthy }
     environment:
-      STARROCKS_HOST: ${STARROCKS_HOST}
-      STARROCKS_PORT: ${STARROCKS_PORT}
-      STARROCKS_USER: ${STARROCKS_USER}
-      STARROCKS_PASSWORD: ${STARROCKS_PASSWORD}
-      STARROCKS_SCHEMA: ${STARROCKS_SCHEMA}
-      STARROCKS_CATALOG: ${STARROCKS_CATALOG}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT}
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
@@ -62,6 +36,12 @@ services:
       CHUNK_SIZE: ${CHUNK_SIZE}
       COLUMNS_PER_TABLE: ${COLUMNS_PER_TABLE}
       WRITE_LOCAL: ${WRITE_LOCAL}
+      RETAIL_ORDERS: ${RETAIL_ORDERS}
+      RETAIL_CUSTOMERS: ${RETAIL_CUSTOMERS}
+      RETAIL_PRODUCTS: ${RETAIL_PRODUCTS}
+      RETAIL_STORES: ${RETAIL_STORES}
+      RETAIL_PROMOTIONS: ${RETAIL_PROMOTIONS}
+      RETAIL_REVIEWS: ${RETAIL_REVIEWS}
     volumes:
       - ./project:/dbt/project
     entrypoint: ["/dbt/scripts/init.sh"]
@@ -72,13 +52,14 @@ services:
     container_name: dbt_runner
     depends_on:
       data-init: { condition: service_completed_successfully }
+      spark-etl: { condition: service_completed_successfully }
+      trino: { condition: service_started }
     environment:
-      STARROCKS_HOST: ${STARROCKS_HOST}
-      STARROCKS_PORT: ${STARROCKS_PORT}
-      STARROCKS_USER: ${STARROCKS_USER}
-      STARROCKS_PASSWORD: ${STARROCKS_PASSWORD}
-      STARROCKS_SCHEMA: ${STARROCKS_SCHEMA}
-      STARROCKS_CATALOG: ${STARROCKS_CATALOG}
+      TRINO_HOST: trino
+      TRINO_PORT: 8080
+      TRINO_USER: trino
+      TRINO_CATALOG: iceberg
+      TRINO_SCHEMA: analytics
     volumes:
       - ./project:/dbt/project
     working_dir: /dbt/project
@@ -91,7 +72,7 @@ services:
     restart: unless-stopped
     depends_on:
       superset-init: { condition: service_completed_successfully }
-      starrocks: { condition: service_started }
+      trino: { condition: service_started }
       redis: { condition: service_healthy }
     environment:
       - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
@@ -112,16 +93,15 @@ services:
     build: { context: ./superset, dockerfile: Dockerfile }
     container_name: superset_init
     depends_on:
-      starrocks: { condition: service_started }
+      trino: { condition: service_started }
     environment:
       - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
       - SUPERSET_CONFIG_PATH=/app/pythonpath/superset_config.py
-      - STARROCKS_HOST=${STARROCKS_HOST}
-      - STARROCKS_PORT=${STARROCKS_PORT}
-      - STARROCKS_USER=${STARROCKS_USER}
-      - STARROCKS_PASSWORD=${STARROCKS_PASSWORD}
-      - STARROCKS_SCHEMA=${STARROCKS_SCHEMA}
-      - STARROCKS_CATALOG=${STARROCKS_CATALOG}
+      - TRINO_HOST=trino
+      - TRINO_PORT=8080
+      - TRINO_USER=trino
+      - TRINO_CATALOG=iceberg
+      - TRINO_SCHEMA=analytics
     volumes:
       - superset_home:/app/superset_home
       - ./superset/superset_config.py:/app/pythonpath/superset_config.py:ro
@@ -309,6 +289,8 @@ services:
       - ./dbt/scripts:/opt/airflow/dbt/scripts
       - ./dbt/profiles:/opt/airflow/dbt_profiles
       - ./project:/opt/airflow/dbt_project
+      - ./spark/conf:/opt/airflow/spark/conf:ro
+      - ./spark/jobs:/opt/airflow/spark/jobs:ro
     command: celery worker
     healthcheck:
       test: ["CMD-SHELL", "celery -A airflow.executors.celery_executor.app inspect ping -d celery@$$HOSTNAME"]
@@ -355,6 +337,43 @@ services:
       - AWS_REGION=us-east-1
     ports:
       - "8181:8181"
+    volumes:
+      - iceberg_catalog_data:/tmp
+    networks: [dbt_network]
+
+  spark-etl:
+    image: apache/spark:3.5.6
+    container_name: spark_etl
+    depends_on:
+      data-init: { condition: service_completed_successfully }
+      iceberg-rest: { condition: service_started }
+      minio: { condition: service_healthy }
+    environment:
+      - AWS_ACCESS_KEY_ID=minioadmin
+      - AWS_SECRET_ACCESS_KEY=minioadmin
+      - AWS_REGION=us-east-1
+    volumes:
+      - ./spark/conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+      - ./spark/jobs:/opt/spark/jobs
+    command: ["/opt/spark/bin/spark-submit", "/opt/spark/jobs/etl_all_to_iceberg.py"]
+    networks: [dbt_network]
+
+  trino:
+    image: trinodb/trino:484
+    container_name: trino
+    restart: unless-stopped
+    depends_on:
+      iceberg-rest: { condition: service_started }
+      minio: { condition: service_healthy }
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./trino/etc:/etc/trino:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/v1/info >/dev/null || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
     networks: [dbt_network]
 
   spark-iceberg:
@@ -380,10 +399,10 @@ services:
     networks: [dbt_network]
 
 volumes:
-  starrocks_data:
   minio_data:
   superset_home:
   postgres_airflow_data:
+  iceberg_catalog_data:
 
 networks:
   dbt_network:

@@ -1,12 +1,4 @@
-{{ config(
-    materialized='table',
-    engine='OLAP',
-    keys=['supplier_id'],
-    table_type='PRIMARY',
-    distributed_by=['supplier_id'],
-    buckets=4,
-    properties='{"replication_num": "1"}'
-) }}
+{{ config(materialized='table', format='PARQUET') }}
 
 WITH supplier_orders AS (
     SELECT

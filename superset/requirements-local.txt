@@ -1,2 +1,1 @@
-starrocks==1.0.6
-mysqlclient
+trino[sqlalchemy]==0.340.0

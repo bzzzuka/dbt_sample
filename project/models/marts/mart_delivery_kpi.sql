@@ -1,12 +1,4 @@
-{{ config(
-    materialized='table',
-    engine='OLAP',
-    keys=['transport_mode', 'container_type', 'priority'],
-    table_type='PRIMARY',
-    distributed_by=['transport_mode'],
-    buckets=4,
-    properties='{"replication_num": "1"}'
-) }}
+{{ config(materialized='table', format='PARQUET') }}
 
 WITH shipments AS (
     SELECT
@@ -20,7 +12,11 @@ WITH shipments AS (
         s.weight_kg,
         s.shipping_cost,
         s.status,
-        DATEDIFF(s.delivery_date, s.ship_date)   AS delivery_days
+        DATE_DIFF(
+            'day',
+            CAST(s.ship_date AS date),
+            CAST(s.delivery_date AS date)
+        )                                        AS delivery_days
     FROM {{ ref('stg_shipments') }} s
     LEFT JOIN {{ ref('stg_supply_orders') }} o
         ON o.supply_order_id = s.supply_order_id

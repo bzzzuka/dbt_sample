@@ -1,12 +1,4 @@
-{{ config(
-    materialized='table',
-    engine='OLAP',
-    keys=['month'],
-    table_type='PRIMARY',
-    distributed_by=['month'],
-    buckets=4,
-    properties='{"replication_num": "1"}'
-) }}
+{{ config(materialized='table', format='PARQUET') }}
 
 WITH order_totals AS (
     SELECT

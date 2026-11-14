@@ -2,11 +2,11 @@ default:
   target: dev
   outputs:
     dev:
-      type: starrocks
-      host: "{{ env_var('STARROCKS_HOST', 'starrocks') }}"
-      port: "{{ env_var('STARROCKS_PORT', '9030') | int }}"
-      schema: "{{ env_var('STARROCKS_SCHEMA', 'analytics') }}"
-      username: "{{ env_var('STARROCKS_USER', 'root') }}"
-      password: "{{ env_var('STARROCKS_PASSWORD', '') }}"
-      catalog: "{{ env_var('STARROCKS_CATALOG', 'default_catalog') }}"
-      version: "3.4.0"
+      type: trino
+      method: none
+      user: "{{ env_var('TRINO_USER', 'trino') }}"
+      host: "{{ env_var('TRINO_HOST', 'trino') }}"
+      port: "{{ env_var('TRINO_PORT', '8080') | int }}"
+      database: "{{ env_var('TRINO_CATALOG', 'iceberg') }}"
+      schema: "{{ env_var('TRINO_SCHEMA', 'analytics') }}"
+      threads: 4

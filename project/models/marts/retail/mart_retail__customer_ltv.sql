@@ -1,12 +1,4 @@
-{{ config(
-    materialized='table',
-    engine='OLAP',
-    keys=['customer_id'],
-    table_type='PRIMARY',
-    distributed_by=['customer_id'],
-    buckets=4,
-    properties='{"replication_num": "1"}'
-) }}
+{{ config(materialized='table', format='PARQUET') }}
 
 SELECT
     c.customer_id,

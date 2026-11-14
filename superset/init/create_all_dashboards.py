@@ -16,7 +16,7 @@ import requests
 BASE_URL = os.getenv("SUPERSET_URL", "http://localhost:8088").rstrip("/")
 USERNAME = os.getenv("SUPERSET_USERNAME", "admin")
 PASSWORD = os.getenv("SUPERSET_PASSWORD", "admin")
-DATABASE_NAME = "StarRocks Analytics"
+DATABASE_NAME = "Trino Iceberg"
 SCHEMA = "analytics"
 
 
@@ -415,7 +415,7 @@ def update_dashboard(session, dash_id, title, charts):
 
 
 def verify_superset_sql(session, db_id, tables):
-    print("\nПроверка SQL Lab (Superset -> StarRocks):")
+    print("\nПроверка SQL Lab (Superset -> Trino):")
     for table in tables:
         sql = f"SELECT COUNT(*) AS cnt FROM {SCHEMA}.{table}"
         payload = {

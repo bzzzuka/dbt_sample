@@ -38,3 +38,8 @@ dbt/profiles/.user.yml
 
 # Spark / Ivy cache
 .ivy2/
+
+# Trino dbt local artifacts
+trino_project/target/
+trino_project/logs/
+trino_project/.user.yml
